@@ -54,7 +54,7 @@ A Halloween-themed cybersecurity toolkit for detecting and learning about phishi
 | **Shuayb** | Backend Developer | [@ShuaybAi](https://github.com/ShuaybAi) |
 | **Mark** | Design / Content | [@maleeper](https://github.com/maleeper) |
 | **Sanchia** | Frontend Developer | [@Chia-Codes](https://github.com/Chia-Codes) |
-| **Akram** | Developer | TBD |
+| **Akram** | Developer | TBD | [@Chia-Codes](https://github.com/AL-MASNAI) |
 
 ---
 
