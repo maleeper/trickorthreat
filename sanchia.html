@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Sanchia — Trick or Threat</title>
+
+  <!-- Inline page-only styles (kept minimal; matches your glassy look) -->
+  <style>
+    :root{
+      --bg:#0b0b12;
+      --fg:#eaeaf2;
+      --muted:#b9b9cc;
+      --card: rgba(21,22,40,.85);
+      --border:#2a2b45;
+      --accent:#8a7dff;
+      --ok:#64f4a1;
+      --orange:#FFA500;
+      --orange-soft:#FFC266;
+      --shadow:0 8px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif}
+    img{max-width:100%;display:block}
+    a{color:#cfd2ff;text-decoration:none}
+
+    /* Top bar */
+    .topbar{
+      position:sticky;top:0;z-index:10;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:10px 16px;border-bottom:1px solid var(--border);
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(11,11,18,.75), rgba(11,11,18,.4));
+    }
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand__logo{height:32px;width:32px;border-radius:8px;object-fit:cover}
+    .brand__name{font-weight:700}
+    .nav{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+    .nav__link{opacity:.9;padding:6px 4px;border-bottom:2px solid transparent}
+    .nav__link.is-active{opacity:1;border-bottom-color:var(--accent)}
+
+    /* Layout */
+    .container{max-width:980px;margin:0 auto;padding:24px}
+    .center{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+
+    /* Cards & buttons */
+    .card{
+      width:100%;
+      max-width:820px;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      box-shadow:var(--shadow);
+      padding:18px;
+      margin:0 auto;
+    }
+    .hero__title{margin:0 0 6px}
+    .hero__sub{margin:0 0 12px;color:var(--muted)}
+    .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+    .btn{
+      padding:12px 16px;border-radius:10px;border:1px solid var(--border);
+      background:#1b1f4b;color:#fff;cursor:pointer;transition:transform .08s ease, box-shadow .2s ease;
+    }
+    .btn:active{transform:scale(.98)}
+    .btn--ghost{background:transparent}
+    .treat{color:var(--ok)}
+    .trick{color:#ff6b6b}
+
+    /* Popup */
+    .overlay{
+      position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+      background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:9999;
+    }
+    .overlay.is-open{display:flex}
+    .popup{
+      width:min(520px,90vw);
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:22px;
+      box-shadow:var(--shadow);
+      text-align:center;
+      color:var(--orange);
+    }
+    .popup h2{
+      margin:6px 0 4px;
+      color:var(--orange);
+      font-weight:800;
+      letter-spacing:.3px;
+      text-shadow:0 0 8px rgba(255,165,0,.3), 0 1px 0 rgba(0,0,0,.4);
+    }
+    .popup p{margin:0;color:var(--orange-soft);font-weight:600}
+    .ghost{font-size:64px;line-height:1}
+    .popup .row{justify-content:center;margin-top:14px}
+
+    /* Micro animations (respect reduced motion) */
+    @media (prefers-reduced-motion: no-preference){
+      .btn--pulse{animation:pulse 1.6s infinite ease-in-out}
+      @keyframes pulse{
+        0%{box-shadow:0 0 0 0 rgba(138,125,255,.45)}
+        70%{box-shadow:0 0 0 12px rgba(138,125,255,0)}
+        100%{box-shadow:0 0 0 0 rgba(138,125,255,0)}
+      }
+      .pop-enter{animation:pop .28s ease-out both}
+      @keyframes pop{
+        from{opacity:0;transform:translateY(10px) scale(.98)}
+        to{opacity:1;transform:translateY(0) scale(1)}
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header / Nav -->
+  <header class="topbar">
+    <div class="brand">
+      <img src="phantomphish.jpg" alt="Trick or Threat" class="brand__logo"/>
+      <span class="brand__name">Trick or Threat</span>
+    </div>
+    <nav class="nav" aria-label="Primary">
+      <a class="nav__link" href="index.html">Index</a>
+      <a class="nav__link is-active" href="sanchia.html" aria-current="page">Sanchia</a>
+    </nav>
+  </header>
+
+  <!-- Main content -->
+  <main class="container">
+    <section class="card center pop-enter" role="region" aria-labelledby="title">
+      <h1 id="title" class="hero__title">hey, i'm <span class="treat">sanchia</span> 👋</h1>
+      <p class="hero__sub">here to haunt bugs and sprinkle candy on good UX.</p>
+      <div class="row" style="margin-top:8px">
+        <button id="summon" class="btn btn--ghost btn--pulse" aria-haspopup="dialog" aria-controls="overlay">
+          summon a spooky hello
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Spooky popup -->
+  <div id="overlay" class="overlay" aria-hidden="true">
+    <div id="popup" class="popup" role="dialog" aria-modal="true" aria-labelledby="pop-title" aria-describedby="pop-desc">
+      <div class="ghost" aria-hidden="true">👻</div>
+      <h2 id="pop-title">boo! happy hack-or-treat 🎃</h2>
+      <p id="pop-desc">i'm sanchia — thanks for visiting. let’s ship something spooky + useful.</p>
+      <div class="row">
+        <button id="close" class="btn" aria-label="Close popup">close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tiny inline script: open/close + ESC; no external libs -->
+  <script>
+    (function(){
+      const overlay = document.getElementById('overlay');
+      const popup   = document.getElementById('popup');
+      const btn     = document.getElementById('summon');
+      const closeBtn= document.getElementById('close');
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function openPopup(){
+        overlay.classList.add('is-open');
+        overlay.setAttribute('aria-hidden','false');
+        popup.classList.add('pop-enter');
+        popup.focus && popup.focus();
+      }
+
+      function closePopup(){
+        overlay.classList.remove('is-open');
+        overlay.setAttribute('aria-hidden','true');
+        popup.classList.remove('pop-enter');
+        btn.focus && btn.focus();
+      }
+
+      btn.addEventListener('click', openPopup);
+      closeBtn.addEventListener('click', closePopup);
+      overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closePopup(); });
+      document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closePopup(); });
+
+      // friendly auto-greet (skip if user prefers reduced motion)
+      if(!prefersReduced){ setTimeout(openPopup, 900); }
+    })();
+  </script>
+</body>
+</html>
