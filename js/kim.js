@@ -99,14 +99,14 @@ gsap.from('.scanner-container', {
     scrollTrigger: {
         trigger: '.scanner-section',
         start: 'top 70%',
-        end: 'top 30%',
-        toggleActions: 'play none none reverse'
+        once: true
     },
     duration: 1.2,
     y: 100,
     rotationX: -15,
     opacity: 0,
-    ease: "back.out(1.7)"
+    ease: "back.out(1.7)",
+    immediateRender: false // Don't apply initial state until triggered
 });
 
 // Feature cards scroll animation - stagger with 3D effect
@@ -114,15 +114,15 @@ gsap.from('.feature-card', {
     scrollTrigger: {
         trigger: '.features-section',
         start: 'top 70%',
-        end: 'top 30%',
-        toggleActions: 'play none none reverse'
+        once: true
     },
     duration: 1,
     y: 100,
     rotationY: -15,
     opacity: 0,
     stagger: 0.15,
-    ease: "back.out(1.7)"
+    ease: "back.out(1.7)",
+    immediateRender: false // Don't apply initial state until triggered
 });
 
 // Features title animation with scale
@@ -130,12 +130,13 @@ gsap.from('.features-title', {
     scrollTrigger: {
         trigger: '.features-section',
         start: 'top 70%',
-        toggleActions: 'play none none reverse'
+        once: true
     },
     duration: 1,
     scale: 0.5,
     opacity: 0,
-    ease: "back.out(1.7)"
+    ease: "back.out(1.7)",
+    immediateRender: false // Don't apply initial state until triggered
 });
 
 // Features subtitle animation
@@ -143,13 +144,14 @@ gsap.from('.features-subtitle', {
     scrollTrigger: {
         trigger: '.features-section',
         start: 'top 70%',
-        toggleActions: 'play none none reverse'
+        once: true
     },
     duration: 0.8,
     y: 30,
     opacity: 0,
     delay: 0.2,
-    ease: "power3.out"
+    ease: "power3.out",
+    immediateRender: false // Don't apply initial state until triggered
 });
 
 // 3D tilt effect on cards with mouse movement
