@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Canvas for particles -->
+<canvas id="particleCanvas"></canvas>
+
+<!-- Floating ghosts -->
+<div class="ghost ghost1"></div>
+<div class="ghost ghost2"></div>
+<div class="ghost ghost3"></div>
+<div class="ghost ghost4"></div>
+
+<!-- Flying bats -->
+<div class="bat bat1">🦇</div>
+<div class="bat bat2">🦇</div>
+<div class="bat bat3">🦇</div>
+
+<!-- Pumpkins -->
+<div class="pumpkin pumpkin1">🎃</div>
+<div class="pumpkin pumpkin2">🎃</div>
+
+<!-- Audio control -->
+<div class="audio-control" id="audioToggle" title="Toggle spooky vibes">
+    🔇
+</div>
+
+<audio id="bgAudio" loop>
+    <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Main content -->
+<div class="container">
+    <!-- Title -->
+    <div class="title-container" id="titleContainer">
+        <h1 class="title" id="mainTitle">TRICK OR THREAT</h1>
+    </div>
+
+    <!-- Main glass card -->
+    <div class="glass-card" id="mainCard">
+        <h2>Code Institute Halloween Hackathon 🎃</h2>
+        <p>
+            Team <span class="team-name">Phantom Phishers</span> reporting for duty. We're making a phishing detection
+            toolkit because apparently people still click on emails from "Amaz0n Security Department."
+        </p>
+        <p>
+            Paste a sketchy URL, take a quiz on fake emails, maybe learn something. Or don't. We're not your mom.
+        </p>
+        <div class="status-badge" id="badge">CURRENTLY BUILDING IN GITHUB</div>
+    </div>
+
+    <!-- Feature cards -->
+    <div class="features" id="features">
+        <div class="feature-card">
+            <span class="feature-icon">🔍</span>
+            <h3 class="feature-title">URL Scanner</h3>
+            <p class="feature-text">Check if a link is legit or trying to steal your identity. Spoiler: it's usually the
+                second one.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🎮</span>
+            <h3 class="feature-title">Phishing Quiz</h3>
+            <p class="feature-text">Test yourself on fake emails. Can you spot the obvious scams? (Most people can't.)
+            </p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🏆</span>
+            <h3 class="feature-title">Leaderboard</h3>
+            <p class="feature-text">Compete with strangers on the internet. Build streaks, earn badges, feel superior.
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
