@@ -40,21 +40,31 @@
         Scroll Down
     </div>
 
-    <!-- Scanner Section -->
-    <section class="scanner-section">
-        <div class="scanner-container">
-            <h2 class="scanner-title">Scan a URL</h2>
-            <div class="input-group">
-                <input 
-                    type="text" 
-                    class="url-input" 
-                    placeholder="https://definitely-not-suspicious.com"
-                    id="urlInput"
-                >
-                <button class="scan-btn" id="scanBtn"><span>Scan</span></button>
-            </div>
-            <p style="text-align: center; color: rgba(255,255,255,0.4); font-size: 0.875rem;">
-                Paste any URL to check if it's a trick or a treat
+    <audio id="bgAudio" loop>
+        <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" type="audio/mpeg">
+    </audio>
+
+<header class="topbar glass">
+  <nav class="nav">
+    <a class="nav__link" href="sanchia.html">Sanchia</a> <!-- NEW -->
+  </nav>
+</header>
+
+    <!-- Main content -->
+    <div class="container">
+        <!-- Title -->
+        <div class="title-container" id="titleContainer">
+            <h1 class="title" id="mainTitle">TRICK OR THREAT</h1>
+        </div>
+
+        <!-- Main glass card -->
+        <div class="glass-card" id="mainCard">
+            <h2>Code Institute Halloween Hackathon 🎃</h2>
+            <p>
+                Team <span class="team-name">Phantom Phishers</span> reporting for duty. We're making a phishing detection toolkit because apparently people still click on emails from "Amaz0n Security Department."
+            </p>
+            <p>
+                Paste a sketchy URL, take a quiz on fake emails, maybe learn something. Or don't. We're not your mom.
             </p>
         </div>
     </section>
