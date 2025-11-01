@@ -1,75 +1,117 @@
 document.addEventListener("DOMContentLoaded", function () {
   console.log("Hello world");
 
+  // Event handlers for buttons
+  document.querySelectorAll("button").forEach((button) => {
+    button.addEventListener("click", function (event) {
+      const dataType = button.getAttribute("data-type");
+      const questionId = button.getAttribute("data-question-id");
+
+      if (dataType === "phish" || dataType === "treat") {
+        // Get CSRF token from DOM
+        const csrfToken = document.querySelector(
+          "[name=csrfmiddlewaretoken]"
+        ).value;
+
+        fetch("/quiz", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrfToken,
+            "X-Requested-With": "XMLHttpRequest",
+          },
+          body: JSON.stringify({ 
+            answer: dataType,
+            question: questionId,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // Handle response data here
+            console.log(data);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      } else {
+        alert("Feature not yet implemented");
+      }
+    });
+  });
+
   // Particle system
   const canvas = document.getElementById("particleCanvas");
-  const ctx = canvas.getContext("2d");
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  if (canvas) {
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-  const particles = [];
+    const particles = [];
 
-  class Particle {
-    constructor(x, y) {
-      this.x = x;
-      this.y = y;
-      this.size = Math.random() * 3 + 1;
-      this.speedX = Math.random() * 3 - 1.5;
-      this.speedY = Math.random() * 3 - 1.5;
-      this.color = ["#ff6b35", "#00ff88", "#9b59b6", "#fff"][
-        Math.floor(Math.random() * 4)
-      ];
-      this.life = 100;
-    }
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = Math.random() * 3 - 1.5;
+        this.speedY = Math.random() * 3 - 1.5;
+        this.color = ["#ff6b35", "#00ff88", "#9b59b6", "#fff"][
+          Math.floor(Math.random() * 4)
+        ];
+        this.life = 100;
+      }
 
-    update() {
-      this.x += this.speedX;
-      this.y += this.speedY;
-      this.life -= 2;
-      this.size *= 0.97;
-    }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.life -= 2;
+        this.size *= 0.97;
+      }
 
-    draw() {
-      ctx.fillStyle = this.color;
-      ctx.globalAlpha = this.life / 100;
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-
-  function animateParticles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    for (let i = particles.length - 1; i >= 0; i--) {
-      particles[i].update();
-      particles[i].draw();
-
-      if (particles[i].life <= 0) {
-        particles.splice(i, 1);
+      draw() {
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.life / 100;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
       }
     }
 
-    requestAnimationFrame(animateParticles);
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        particles[i].update();
+        particles[i].draw();
+
+        if (particles[i].life <= 0) {
+          particles.splice(i, 1);
+        }
+      }
+
+      requestAnimationFrame(animateParticles);
+    }
+
+    animateParticles();
   }
-
-  animateParticles();
-
   // Audio control
   const audioToggle = document.getElementById("audioToggle");
   const bgAudio = document.getElementById("bgAudio");
-  let audioPlaying = false;
 
-  audioToggle.addEventListener("click", () => {
-    if (audioPlaying) {
-      bgAudio.pause();
-      audioToggle.textContent = "🔇";
-    } else {
-      bgAudio.play();
-      audioToggle.textContent = "🔊";
-    }
-    audioPlaying = !audioPlaying;
-  });
+  if (audioToggle && bgAudio) {
+    let audioPlaying = false;
+
+    audioToggle.addEventListener("click", () => {
+      if (audioPlaying) {
+        bgAudio.pause();
+        audioToggle.textContent = "🔇";
+      } else {
+        bgAudio.play();
+        audioToggle.textContent = "🔊";
+      }
+      audioPlaying = !audioPlaying;
+    });
+  }
 
   // Split text into chars
   function splitText(element) {
@@ -220,21 +262,22 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Title hover - explosion effect
-  document
-    .getElementById("titleContainer")
-    .addEventListener("mouseenter", () => {
-      explodeTitle();
+  if (document.getElementById("titleContainer")) {
+    document
+      .getElementById("titleContainer")
+      .addEventListener("mouseenter", () => {
+        explodeTitle();
 
-      gsap.to(".char", {
-        scale: 1.1,
-        duration: 0.2,
-        stagger: 0.02,
-        yoyo: true,
-        repeat: 1,
-        ease: "power2.inOut",
+        gsap.to(".char", {
+          scale: 1.1,
+          duration: 0.2,
+          stagger: 0.02,
+          yoyo: true,
+          repeat: 1,
+          ease: "power2.inOut",
+        });
       });
-    });
-
+  }
   // Feature card interactions
   document.querySelectorAll(".feature-card").forEach((card) => {
     card.addEventListener("mouseenter", function () {
