@@ -7,7 +7,8 @@
 </div>
 
 <div class="d-flex justify-content-between">
-    <div>Score: <span>{{ score }}</span></div>
+    <div>Score: <span id="user-score">{{ score }}</span></div>
+    <div id="quiz-timer" data-timer-value="{{ timer_value }}"></div>
     <div>Q<span>{{ question_number }}/{{ total_questions }}</span></div>
 </div>
 
@@ -17,11 +18,16 @@
         <strong>Subject:</strong> {{ question.subject }}
     </div>
     <div class="email-body" style="margin-top: 1em; white-space: pre-line;">
-        {{ question.body }}
+        {{ question_body_formatted|safe }}
     </div>
     {% if question.attachments %}
     <div class="email-attachments" style="margin-top: 1em;">
-        <strong>Attachments:</strong> {{ question.attachments }}
+        <strong>Attachments:</strong>
+        {% if question.link %}
+            <a href="{{ question.link }}" target="_blank">{{ question.attachments }}</a>
+        {% else %}
+            {{ question.attachments }}
+        {% endif %}
     </div>
     {% endif %}
 </div>
@@ -38,4 +44,5 @@
     <a href="{% url 'quiz_with_session_id' session_id %}">Next</a>
     {% endif %}
 </div>
+<div id="quiz-results"></div>
 {% endblock content %}
