@@ -7,7 +7,8 @@
 </div>
 
 <div class="d-flex justify-content-between">
-    <div>Score: <span>{{ score }}</span></div>
+    <div>Score: <span id="user-score">{{ score }}</span></div>
+    <div id="quiz-timer" data-timer-value="{{ timer_value }}"></div>
     <div>Q<span>{{ question_number }}/{{ total_questions }}</span></div>
 </div>
 
@@ -38,4 +39,5 @@
     <a href="{% url 'quiz_with_session_id' session_id %}">Next</a>
     {% endif %}
 </div>
+<div id="quiz-results"></div>
 {% endblock content %}

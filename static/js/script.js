@@ -1,7 +1,45 @@
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("Hello world");
+  // ----------------------------------------------------------
+  // Quiz timer for each question
+  // ----------------------------------------------------------
+  function updateTimer(timerDisplay, timeLeft, timerInterval) {
+    const minutes = Math.floor(timeLeft.value / 60);
+    const seconds = timeLeft.value % 60;
+    timerDisplay.textContent = `Timer: ${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    if (timeLeft.value <= 0) {
+      clearInterval(timerInterval);
+      // Optionally, trigger quiz end or auto-submit here
+      timerDisplay.textContent = "Time's up!";
+    }
+    timeLeft.value--;
+  }
 
+  let timerInterval = null;
+  let timeLeft = null;
+
+  const timerDisplay = document.getElementById("quiz-timer");
+  if (timerDisplay) {
+    // Get timer value from data attribute, fallback to 10 minutes if not set
+    let timerValue = parseInt(
+      timerDisplay.getAttribute("data-timer-value"),
+      10
+    );
+    if (isNaN(timerValue)) {
+      timerValue = 10 * 60; // default to 10 minutes in seconds
+    }
+    timeLeft = { value: timerValue };
+    updateTimer(timerDisplay, timeLeft); // Initial call to display immediately
+    timerInterval = setInterval(
+      () => updateTimer(timerDisplay, timeLeft, timerInterval),
+      1000
+    );
+  }
+
+  // ----------------------------------------------------------
   // Event handlers for buttons
+  // ----------------------------------------------------------
   document.querySelectorAll("button").forEach((button) => {
     button.addEventListener("click", function (event) {
       const dataType = button.getAttribute("data-type");
@@ -9,11 +47,17 @@ document.addEventListener("DOMContentLoaded", function () {
       const sessionId = button.getAttribute("data-session-id");
 
       if (dataType === "phish" || dataType === "treat") {
+        // Stop the timer
+        if (timerInterval) {
+          clearInterval(timerInterval);
+        }
+
         // Get CSRF token from DOM
         const csrfToken = document.querySelector(
           "[name=csrfmiddlewaretoken]"
         ).value;
 
+        // Make AJAX call to check results
         fetch(`/quiz/${sessionId}/`, {
           method: "POST",
           headers: {
@@ -25,6 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
             answer: {
               question: questionId,
               choice: dataType,
+              time_left: timeLeft ? timeLeft.value : null,
             },
           }),
         })
@@ -32,8 +77,23 @@ document.addEventListener("DOMContentLoaded", function () {
           .then((data) => {
             // Handle response data here
             console.log(data);
+            const resultsDiv = document.getElementById("quiz-results");
+            if (resultsDiv) {
+              let resultText = data.correct ? "Correct!" : "Incorrect.";
+              if (data.explanation) {
+                resultText += `\nExplanation: ${data.explanation}`;
+              }
+              resultsDiv.textContent = resultText;
+            }
+            // Update the score display
+            const scoreDisplay = document.getElementById("user-score");
+            if (scoreDisplay && typeof data.score !== "undefined") {
+              scoreDisplay.textContent = data.score;
+            }
             // Display progression controls
-            document.getElementById("quiz-progression-control").classList.remove("hidden");
+            document
+              .getElementById("quiz-progression-control")
+              .classList.remove("hidden");
             document.getElementById("quiz-choices").classList.add("hidden");
           })
           .catch((error) => {
