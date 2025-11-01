@@ -9,11 +9,11 @@ class Question(models.Model):
     """A model representing a phishing identification question."""
 
     type = models.CharField(max_length=100)  # e.g. 'email', 'sms', 'webpage'
-    sender = models.CharField(max_length=100)
-    subject = models.CharField(max_length=100)
+    sender = models.CharField(max_length=200)
+    subject = models.CharField(max_length=200)
     body = models.TextField()
     content = models.TextField(blank=True, null=True)
-    tactic_context = models.CharField(max_length=100)
+    tactic_context = models.CharField(max_length=500)
     link = models.URLField(blank=True, null=True)
     attachments = models.CharField(max_length=100, blank=True, null=True)
     is_phishing = models.BooleanField()
