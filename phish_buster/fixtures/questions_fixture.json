@@ -1,0 +1,302 @@
+[
+  {
+    "model": "phish_buster.question",
+    "pk": 1,
+    "fields": {
+      "type": "Business Email Compromise (BEC)",
+      "sender": "\"CEO Name\" <[ceo_name].urgent@ci-finance-bacs.com>",
+      "subject": "URGENT: Approve Final Payment for Tonight's Halloween Venue/Security",
+      "body": "Hi [Recipient Name], I sent a message on Teams this morning—did you miss it? I need you to handle a high-priority, confidential **BACS payment** immediately. We've had a last-minute issue securing the full deposit for the **Halloween party venue and security firm**. We must pay the attached invoice before **2 PM GMT today** or the event will be cancelled. Please process the **BACS form** attached and send a confirmation text message to my personal mobile when complete. Do not share this with anyone. Thank you, [CEO Name]",
+      "content": "A high-pressure request for a fraudulent BACS payment, exploiting the time pressure of a company event and referencing a missed internal chat to bypass verification.",
+      "tactic_context": "Tactic: **Authority & Urgency**. Targets Finance staff. Reference to a missed internal chat justifies the immediate, urgent email and the breach of normal procedure.",
+      "link": null,
+      "attachments": "Halloween-Venue-Security-Deposit.docx",
+      "is_phishing": true
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 2,
+    "fields": {
+      "type": "Credential Harvesting (IT Alert)",
+      "sender": "Code Institute Security <security@ci-support-desk.com>",
+      "subject": "**IMMEDIATE ATTENTION**: Phishing Alert - Secure Your Account Before Midnight Lockout",
+      "body": "Dear User, **Immediate action required.** We detected a security breach on our network today, **October 31st**. Your account has been quarantined. To prevent **permanent lockout** and a full security reset, you must **verify your identity before midnight (00:00 GMT)**. Click the button below **NOW**. [Hyperlinked Button: 'VERIFY IDENTITY AND UNLOCK ACCOUNT']",
+      "content": "A concise, high-pressure alert, optimized for mobile viewing, demanding immediate account verification to avoid service deletion by a hard deadline.",
+      "tactic_context": "Tactic: **Fear & Hard Deadline**. Targets all employees/students. The midnight deadline is a psychological anchor tied to the holiday end, forcing a decision before the start of the next day.",
+      "link": "http://secure-login-fix.net/verify",
+      "attachments": null,
+      "is_phishing": true
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 3,
+    "fields": {
+      "type": "Brand Spoofing / Data Harvest",
+      "sender": "Royal Mail Tracking <service@royal-mail-delivery.site>",
+      "subject": "Delivery Failure Notice: Your Costume Parcel is Held Until Fee Paid",
+      "body": "We regret to inform you that your parcel delivery with tracking **RM991234567GB** has been suspended. The reason is an insufficient postage/customs fee of **£2.99** applied to the item. To ensure your **last-minute Halloween costume** is delivered **TODAY**, please click the secure link below to pay the fee and reschedule delivery. Failure to pay will result in the parcel being returned to sender.",
+      "content": "A notification from a spoofed Royal Mail, preying on the urgent need for a time-sensitive item (a costume) and requesting a micro-fee for delivery.",
+      "tactic_context": "Tactic: **Urgent Need & Micro-Fee**. Targets online shoppers. Exploits anxiety over not having a costume for the event tonight, using a low fee (£2.99) that users pay without thinking.",
+      "link": "http://package-reschedule-fee.com",
+      "attachments": null,
+      "is_phishing": true
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 4,
+    "fields": {
+      "type": "Malware/Attachment Phishing",
+      "sender": "Code Institute HR <hr-updates@code-institute.co.uk.net>",
+      "subject": "Mandatory Review: New Dress Code Policy for Office Celebrations (Halloween)",
+      "body": "Dear Staff Member, Due to the number of questions regarding costume suitability, there are urgent amendments to the **Workplace Conduct and Dress Code Policy** relating to appropriate attire for today's **Halloween celebration**. **Review and acknowledgement** of the attached document is **required for all employees** by **5 PM today**, October 31st. Compliance is mandatory. Thank you, The Human Resources Management Team",
+      "content": "A formal HR notice requiring immediate review and acknowledgement of a new policy directly relevant to the day's event, leveraging compliance pressure.",
+      "tactic_context": "Tactic: **Compliance & Authority**. Targets all employees. The context of a relevant, time-sensitive policy regarding office behaviour drives the victim to open the malicious attachment quickly.",
+      "link": null,
+      "attachments": "Mandatory_Dress_Code_Halloween.pdf",
+      "is_phishing": true
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 5,
+    "fields": {
+      "type": "SaaS Credential Theft (M365/G-Suite)",
+      "sender": "Microsoft Office 365 <noreply@m-soft-online.com>",
+      "subject": "URGENT: Storage Full - Cannot Receive Halloween Photo Submissions",
+      "body": "Dear User, Your **Microsoft Exchange** mailbox storage is currently at 98.7% capacity. We have detected that multiple high-resolution images for the **internal Code Institute Photo Contest** are causing server strain. To prevent mail service disruption and ensure you can receive critical internal communications, please click the button below to sign in and **activate your temporary quota increase**. Your account will be suspended by **15:00 GMT today** if no action is taken. [Hyperlinked Button: 'ACTIVATE TEMPORARY STORAGE']",
+      "content": "A notification about hitting storage limits, tying the issue to a specific, ongoing internal social event and providing a strict mid-day deadline.",
+      "tactic_context": "Tactic: **Technical Urgency & Social Pressure**. Targets all employees/students. Context uses internal knowledge (the photo contest) to make the alert highly plausible and urgent.",
+      "link": "http://office365-upgrade.us/login",
+      "attachments": null,
+      "is_phishing": true
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 6,
+    "fields": {
+      "type": "Spear Phishing / Software Spoof",
+      "sender": "Sage Accounting <notifications@sage-payroll-systems.com>",
+      "subject": "Re: Urgent: Final Review of Halloween Party Budget/Invoices",
+      "body": "Hi [Recipient Name], I couldn't get the **catering invoice for tonight’s party** to process in Sage. It keeps flagging as an error when I try to upload the **BACS** details. Could you please check the attached invoice and log in to the **Sage portal** to review the vendor details and authorise the payment? We are up against a deadline. Thanks, [Colleague Name] (Accounting)",
+      "content": "A casual-toned, urgent request from a colleague asking a finance user to log into the accounting software to resolve an immediate payment issue for the party.",
+      "tactic_context": "Tactic: **Contextual Trust & Credential Harvest**. Targets finance/accounting staff. Uses a real colleague's name and familiar UK software (Sage) to give the illusion of an ongoing work task.",
+      "link": "http://qb-login-portal.co/verify",
+      "attachments": null,
+      "is_phishing": true
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 7,
+    "fields": {
+      "type": "Angler Phishing / Shame Attack",
+      "sender": "X/Twitter Support <alert@twitter-security.org>",
+      "subject": "Violation Notice: Your Account Locked Due to Offensive Halloween Post",
+      "body": "Hello! We are writing to inform you that your **X/Twitter account** has been flagged for violating our **Community Guidelines** regarding **graphic or hateful content** related to your recent **Halloween post**. To avoid **PERMANENT ERASURE** of your profile and all posts, you must verify your identity immediately. Click the secure verification link: [Hyperlinked Link: 'Verify Account Now']",
+      "content": "An official-looking notification warning of a serious social media violation stemming from a personal post, threatening permanent deletion.",
+      "tactic_context": "Tactic: **Shame & Loss Aversion**. Targets all employees/students. Exploits the fear of having a private costume/party photo misconstrued, combined with the extreme loss of losing their entire social media history.",
+      "link": "http://x-verify-identity.info/login",
+      "attachments": null,
+      "is_phishing": true
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 8,
+    "fields": {
+      "type": "Vishing / TOAD (Telephone Oriented Attack)",
+      "sender": "PayPal Protection <protection@paypal-invoice.com>",
+      "subject": "Your Recent Order #12934-C: **£599.99 Special Effects Make-up Kit** Purchase Confirmed",
+      "body": "Thank you for your recent purchase from the PayPal Merchant Network. You are being charged **£599.99** for a large **Special Effects Make-up Kit**. If you did **NOT** authorise this transaction, please call our 24-hour Fraud Prevention Line immediately to cancel the purchase and secure your account. **CALL NOW: 0800 555 1234**. (Do not reply to this email.)",
+      "content": "An email notifying the victim of a large, fraudulent purchase related to the holiday, with bold instructions to call a fake fraud line to stop the payment.",
+      "tactic_context": "Tactic: **Shock & Callback**. Targets all users. The high-value transaction related to the holiday triggers panic, funnelling the victim directly to a voice scammer for credential harvesting.",
+      "link": null,
+      "attachments": null,
+      "is_phishing": true
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 9,
+    "fields": {
+      "type": "Financial Phishing / Banking Spoof",
+      "sender": "NatWest Security <alerts@natwest-secure-corp.com>",
+      "subject": "Suspicious ATM Withdrawal Detected - Halloween Night",
+      "body": "Dear Valued Customer, We have detected a highly suspicious **ATM withdrawal of £350.00** that occurred at 23:45 on **Halloween night** from a location outside of your usual area. For your protection, your online banking access has been temporarily restricted. To review the activity and securely re-activate your full account access, please log in immediately via the link below. Failure to act may result in permanent account closure.",
+      "content": "A bank alert detailing a specific, suspicious, high-value transaction that coincides with a plausible scenario (being out late on Halloween).",
+      "tactic_context": "Tactic: **Safety Panic & Loss Aversion**. Targets NatWest customers. The transaction details (time, date, amount) make the activity seem highly specific and credible, inducing panic.",
+      "link": "http://natwest-bank-verify-now.co",
+      "attachments": null,
+      "is_phishing": true
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 10,
+    "fields": {
+      "type": "Payroll/BACS Data Theft",
+      "sender": "Code Institute Accounting <payroll@code-institute-benefits.com>",
+      "subject": "**ACTION REQUIRED**: Halloween Performance Bonus - Update BACS Details Immediately",
+      "body": "Dear Colleague, The Board has approved a special one-time **Halloween Performance Bonus**. To ensure this payment is processed through **BACS (Faster Payments)** and is credited to your account by the **end of today, October 31st**, all employees must re-validate their bank account and sort code details via the Payroll Portal. Failure to update your details will cause the payment to be delayed until the **December payroll run**.",
+      "content": "An internal email offering a financial reward, requiring immediate submission of sensitive payroll/BACS details via an external link, with a severe consequence for non-compliance.",
+      "tactic_context": "Tactic: **Incentive & Scarcity**. Targets all employees. Exploits the powerful combination of immediate financial reward (greed) and the threat of a long delay (fear) to force a click.",
+      "link": "http://payroll-secure-update.net/login",
+      "attachments": null,
+      "is_phishing": true
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 11,
+    "fields": {
+      "type": "Internal Announcement",
+      "sender": "The CEO's Office <ceo.messages@code-institute.co.uk>",
+      "subject": "A Message from the CEO: Happy Halloween and Q4 Focus",
+      "body": "Dear [Recipient Name],\n\nI hope you all have a wonderful and safe Halloween evening. As we close out the day, I wanted to thank everyone for their hard work this month. We are now entering the final quarter of the year. Please review the attached PDF for a summary of Q4 objectives and a link to the sign-up sheet for the upcoming charity drive.\n\nBest regards,\n[CEO Name]",
+      "content": "A standard, positive message from the CEO, thanking staff and providing a legitimate link to internal business planning.",
+      "tactic_context": "Safe Example: **Genuine Authority**. Uses official internal sender with a `.co.uk` domain and discusses relevant, non-urgent corporate topics (Q4 planning, charity), adhering to normal communication flow.",
+      "link": "https://intranet.code-institute.co.uk/q4-objectives",
+      "attachments": "Q4_Objectives_2025.pdf",
+      "is_phishing": false
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 12,
+    "fields": {
+      "type": "Security Policy Update",
+      "sender": "Code Institute IT Support <it-support@code-institute.co.uk>",
+      "subject": "ACTION: Mandatory Multi-Factor Authentication (MFA) Check",
+      "body": "Dear User,\n\nIn preparation for increased external activity over the holiday weekend, IT is conducting a mandatory MFA check for all accounts. Please visit our secure IT portal to confirm your preferred MFA contact method (App or SMS) by **end of day, November 1st**. This is a preventative measure to ensure your account security is up-to-date.\n\nAccess the portal here: [Hyperlinked Button: 'Confirm MFA Settings']\n\nThank you,\nIT Security Team",
+      "content": "A routine, non-urgent security notification about a mandatory check, providing a clear deadline that is not immediate.",
+      "tactic_context": "Safe Example: **Legitimate Security**. Uses a full, correct internal domain (`.co.uk`) and asks the user to check a setting, not enter a password immediately. The deadline allows time for verification.",
+      "link": "https://support.code-institute.co.uk/mfa-portal",
+      "attachments": null,
+      "is_phishing": false
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 13,
+    "fields": {
+      "type": "Vendor/Logistics Update",
+      "sender": "Royal Mail Business <business@royalmail.co.uk>",
+      "subject": "Update on 2026 Parcel Rates and Holiday Shipping Deadlines",
+      "body": "Dear Business Customer,\n\nWe are writing to inform you of forthcoming adjustments to our parcel service rates, effective January 1, 2026. This email contains a summary of key changes and our recommended final shipping dates for Christmas and New Year's delivery. You can access the detailed pricing sheet and holiday calendar via the link below.\n\n[Link: 'View 2026 Rate Card']\n\nBest regards,\n**Royal Mail Group**",
+      "content": "A formal update on business services, focusing on future rates and upcoming holidays, which is a common communication for a UK logistics provider.",
+      "tactic_context": "Safe Example: **Routine Business Communication**. Uses the correct UK courier and a professional tone. It is not time-critical for the current day.",
+      "link": "https://www.royalmail.co.uk/rates-2026",
+      "attachments": null,
+      "is_phishing": false
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 14,
+    "fields": {
+      "type": "HR Social Announcement",
+      "sender": "Code Institute HR <hr-social@code-institute.co.uk>",
+      "subject": "Congratulations to Our Halloween Costume Contest Winners!",
+      "body": "Hi Team!\n\nA huge thank you to everyone who participated in today’s Halloween festivities! We saw some amazing costumes and creative efforts. Congratulations to the following staff members who won our 'Most Creative' and 'Scariest' categories.\n\nClick the link below to view the photos from today's celebration on our internal gallery page. [Link: 'View Contest Photos']\n\n- The HR Events Team",
+      "content": "A fun, internal announcement about the winners of the day’s event, linking to an internal photo gallery.",
+      "tactic_context": "Safe Example: **Positive Reinforcement**. Focuses on a positive, completed internal event. The action is to *view* something, not *do* something urgent or log in.",
+      "link": "https://internal-gallery.code-institute.co.uk/halloween-2025",
+      "attachments": null,
+      "is_phishing": false
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 15,
+    "fields": {
+      "type": "Software/Feature Update",
+      "sender": "Microsoft Office 365 <notifications@email.microsoft.com>",
+      "subject": "New Feature Alert: Dark Mode Available for Outlook This Month",
+      "body": "Hello Office User,\n\nWe're excited to announce the rollout of Dark Mode for Outlook, which is designed to reduce eye strain, especially during evening hours. This feature will be deployed to all accounts automatically over the next two weeks. To learn how to enable the new setting once it's available on your desktop or mobile application, please review our support documentation.\n\n[Link: 'Read Microsoft Support Article']\n\nThank you,\nThe Microsoft Team",
+      "content": "A generic, non-urgent notification about a new software feature, linking to a legitimate support article.",
+      "tactic_context": "Safe Example: **Generic Product Notification**. Uses an official Microsoft sender domain and discusses a widely known feature update, requiring no immediate login or action.",
+      "link": "https://support.microsoft.com/en-gb/office/dark-mode",
+      "attachments": null,
+      "is_phishing": false
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 16,
+    "fields": {
+      "type": "System Maintenance Notification",
+      "sender": "Sage Support Team <maintenance@sage.com>",
+      "subject": "Scheduled System Maintenance: Weekend of November 9th",
+      "body": "Dear Sage User,\n\nThis is a notification regarding upcoming planned maintenance for the **Sage Accounting platform**. The system will be unavailable for approximately 6 hours on Saturday, November 9th, from **01:00 GMT to 07:00 GMT**. This work is essential to improve the speed and reliability of your service.\n\nPlease share this schedule with your team to minimize disruption. **No action is required from you.**\n\nRegards,\nThe Sage Maintenance Team",
+      "content": "A standard notice about scheduled system downtime, providing specific times and dates far in advance using **GMT**.",
+      "tactic_context": "Safe Example: **Scheduled Downtime**. Uses the correct UK accounting software and scheduling (GMT), requiring **no immediate action or login**.",
+      "link": null,
+      "attachments": null,
+      "is_phishing": false
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 17,
+    "fields": {
+      "type": "Marketing Newsletter",
+      "sender": "X/Twitter Business <insights@x-marketing.com>",
+      "subject": "This Week in Social: Trends from the Halloween Spike",
+      "body": "Hi Social Media Manager,\n\nDid you catch the massive engagement spike this Halloween? Our latest weekly newsletter dives deep into the top-performing content and hashtag trends from the past seven days, giving you the best data to plan your next campaign. Access the full report via the button below.\n\n[Hyperlinked Button: 'View Full Report']\n\nThanks,\nThe X Insights Team",
+      "content": "A standard marketing newsletter focusing on relevant, recent holiday data, aiming to provide value to the recipient.",
+      "tactic_context": "Safe Example: **Value-Add Content**. The email provides professional data (insights/trends) and links to a report, not a login page for personal credentials.",
+      "link": "https://insights.x-marketing.com/halloween-report-2025",
+      "attachments": null,
+      "is_phishing": false
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 18,
+    "fields": {
+      "type": "Payment Confirmation",
+      "sender": "PayPal <service@paypal.co.uk>",
+      "subject": "Your Direct Debit Mandate for Code Institute Has Been Setup",
+      "body": "Dear Customer,\n\nThis email confirms that a new Direct Debit mandate has been set up from your PayPal account to **Code Institute** for monthly payments of £[Amount]. This setup was completed on October 31, 2025.\n\nIf you initiated this change, no action is required. If you did **NOT** authorise this mandate, please log in to your PayPal account directly at **www.paypal.com** to review your recent activity.\n\nReference ID: PP-001-928741",
+      "content": "A standard payment confirmation notice. The instructions for unauthorized activity direct the user to the *real* PayPal website, not a link in the email.",
+      "tactic_context": "Safe Example: **Defensive Instruction**. Provides clear, non-hyperlinked instructions to go to the **known, legitimate URL** for security issues, reinforcing best financial security practice.",
+      "link": "N/A (Directs user to www.paypal.com)",
+      "attachments": null,
+      "is_phishing": false
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 19,
+    "fields": {
+      "type": "Financial Security Newsletter",
+      "sender": "NatWest <updates@email.natwest.com>",
+      "subject": "NatWest Security Update: Tips for Protecting Your Details on Holiday Weekends",
+      "body": "Hi Valued Customer,\n\nWith increased travel and online spending around holiday weekends, it's important to keep your account safe. Our latest security newsletter outlines three easy tips for safeguarding your personal and financial information. Click here to read the full article.\n\n[Link: 'Read Our 3 Simple Security Tips']\n\nIf you have any concerns about your account, please log in via the official NatWest app or website.\n\nYours sincerely,\nThe **NatWest** Team",
+      "content": "A proactive, educational email offering general security advice, common for UK banks.",
+      "tactic_context": "Safe Example: **Educational & No Threat**. The email provides advice and contains no threats or urgent deadlines. It directs the user to the official app/website, reinforcing correct security behaviour.",
+      "link": "https://www.natwest.com/security-tips/holiday-safety",
+      "attachments": null,
+      "is_phishing": false
+    }
+  },
+  {
+    "model": "phish_buster.question",
+    "pk": 20,
+    "fields": {
+      "type": "Payroll/Benefits Annual Review",
+      "sender": "Code Institute Benefits <benefits-review@code-institute.co.uk>",
+      "subject": "REMINDER: Annual Pension Mandate Review Required",
+      "body": "Dear Colleague,\n\nThis is a friendly reminder that the annual review period for your pension and benefits contribution mandates closes next Friday. Please log in to the secure Benefits Portal to confirm your current contribution rates and ensure your beneficiary information is up-to-date.\n\n[Link: 'Access Benefits Portal']\n\nNote: This is a standard yearly requirement and is not time-critical for today, October 31st.\n\nThank you,\nCode Institute Benefits Team",
+      "content": "A non-urgent, routine internal reminder about an annual administrative task (pension review), with a distant deadline.",
+      "tactic_context": "Safe Example: **Routine Administration**. The task is standard for corporate life, the deadline is distant, and the email explicitly states it is **not time-critical for today**, removing the urgency hook.",
+      "link": "https://benefits.code-institute.co.uk/portal-login",
+      "attachments": null,
+      "is_phishing": false
+    }
+  }
+]
