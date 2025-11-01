@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Title -->
+<div class="title-container" id="titleContainer">
+    <h1 class="title" id="mainTitle">TRICK OR THREAT</h1>
+</div>
+
+{% if question.type == "email" %}
+<div class="email-quiz">
+    <div class="email-header">
+        <strong>From:</strong> {{ question.sender }}<br>
+        <strong>Subject:</strong> {{ question.subject }}
+    </div>
+    <div class="email-body" style="margin-top: 1em; white-space: pre-line;">
+        {{ question.body }}
+    </div>
+    {% if question.attachments %}
+    <div class="email-attachments" style="margin-top: 1em;">
+        <strong>Attachments:</strong> {{ question.attachments }}
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+
+{% csrf_token %}
+<div style="margin-top: 2em;">
+    <button data-type="phish" data-question-id="{{ question.id }}">Phantom Phish</button>
+    <button data-type="treat" data-question-id="{{ question.id }}">True Treat</button>
+</div>
+<div style="margin-top: 2em;">
+    {% if end_round %}
+    <a href="">Results</a>
+    {% else %}
+    <a href="{% url 'quiz' %}">Next</a>
+    {% endif %}
+</div>
+{% endblock content %}
