@@ -351,55 +351,67 @@ body {
     z-index: 10;
 }
 
-.title-container {
-    position: relative;
-    margin-bottom: 40px;
-    cursor: pointer;
-}
-
 .title {
     font-family: 'YouMurderer', cursive;
-    font-size: clamp(3rem, 15vw, 9rem);
+    font-size: clamp(3rem, 12vw, 8rem); /* Slightly smaller, more readable */
     font-weight: 900;
     text-align: center;
-    line-height: 1;
+    line-height: 1.2; /* Better line height */
     position: relative;
-    letter-spacing: 0.1em;
-    /* Fallback color before JS runs */
+    letter-spacing: 0.05em; /* Tighter letter spacing */
     color: var(--toxic-orange);
-    text-shadow: 0 0 30px var(--fire-glow);
-    /* Colors are set per-word in JavaScript after split */
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.8), /* Dark shadow for depth */
+        0 0 20px var(--fire-glow); /* Subtle glow */
     opacity: 1;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5)); /* Extra depth */
 }
 
 .word {
     display: inline-block;
     position: relative;
     opacity: 1;
+    margin: 0 0.2em; /* Better word spacing */
 }
 
 .char {
     display: inline-block;
     position: relative;
     opacity: 1;
+    transition: all 0.3s ease; /* Smooth transitions */
 }
 
-.drip {
-    position: absolute;
-    width: 100%;
-    height: 20px;
-    bottom: -10px;
-    left: 0;
-    background: currentColor;
-    clip-path: polygon(45% 0%, 55% 0%, 55% 100%, 45% 100%);
-    transform-origin: top;
-    animation: drip 2s ease-in-out infinite;
-    opacity: 0.7;
+/* Hover effect for title */
+.title-container:hover .char {
+    animation: charWiggle 0.5s ease;
 }
 
-@keyframes drip {
-    0%, 100% { transform: scaleY(0); }
-    50% { transform: scaleY(1.5); }
+@keyframes charWiggle {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-5px) rotate(-2deg); }
+    75% { transform: translateY(-3px) rotate(2deg); }
+}
+
+/* Alternative: Cleaner sans-serif option */
+.title.clean-style {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: clamp(2.5rem, 10vw, 7rem);
+}
+
+/* Alternative: More dramatic Halloween style */
+.title.dramatic-style {
+    font-family: 'YouMurderer', cursive;
+    font-size: clamp(3.5rem, 14vw, 9rem);
+    letter-spacing: 0.1em;
+    text-shadow: 
+        3px 3px 0 var(--blood-red),
+        6px 6px 0 rgba(0, 0, 0, 0.5),
+        0 0 30px var(--fire-glow),
+        0 0 60px var(--blood-glow);
+    filter: none;
 }
 
 /* ============================================
