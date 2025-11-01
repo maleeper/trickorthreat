@@ -4,6 +4,17 @@
     box-sizing: border-box;
 }
 
+:root {
+    --blood-red: #8B0000;        /* Dark blood red */
+    --neon-orange: #FF4500;      /* OrangeRed - fire glow */
+    --toxic-orange: #FF6B35;     /* Bright toxic orange */
+    --black-void: #0a0a0a;       /* Near black */
+    --dark-grey: #1a1a1a;        /* Slightly lighter black */
+    --ash-grey: #2a2a2a;         /* Ashy grey */
+    --blood-glow: rgba(139, 0, 0, 0.5);   /* Blood red glow */
+    --fire-glow: rgba(255, 69, 0, 0.6);   /* Fire orange glow */
+}
+
 body {
     background: linear-gradient(to bottom, #0a0e27 0%, #1a1a2e 50%, #16213e 100%);
     min-height: 100vh;
