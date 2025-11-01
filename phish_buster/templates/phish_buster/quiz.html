@@ -18,11 +18,16 @@
         <strong>Subject:</strong> {{ question.subject }}
     </div>
     <div class="email-body" style="margin-top: 1em; white-space: pre-line;">
-        {{ question.body }}
+        {{ question_body_formatted|safe }}
     </div>
     {% if question.attachments %}
     <div class="email-attachments" style="margin-top: 1em;">
-        <strong>Attachments:</strong> {{ question.attachments }}
+        <strong>Attachments:</strong>
+        {% if question.link %}
+            <a href="{{ question.link }}" target="_blank">{{ question.attachments }}</a>
+        {% else %}
+            {{ question.attachments }}
+        {% endif %}
     </div>
     {% endif %}
 </div>

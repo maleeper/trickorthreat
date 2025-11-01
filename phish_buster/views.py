@@ -1,5 +1,6 @@
 import json
 import random
+import re
 from django.shortcuts import render
 from django.http import JsonResponse
 from .models import Question, PlayerSession, PlayerAnswer
@@ -87,6 +88,8 @@ def quiz(request, session_id=None):
 
     # Select a question to render
     question = random.choice(unused_questions) if unused_questions else None
+    formatted_body = format_question(question) if question else ""
+
     if question:
         used_question_ids.append(question.id)
         request.session["used_question_ids"] = used_question_ids
@@ -103,6 +106,7 @@ def quiz(request, session_id=None):
         context={
             'session_id': session.id,
             'question': question,
+            'question_body_formatted': formatted_body,
             'question_number': len(used_question_ids),
             'total_questions': QUESTIONS_PER_ROUND,
             'end_round': game_over,
@@ -139,3 +143,31 @@ def check_result(question, choice, secs_left):
         "correct": user_correct,
         "score": score,
     }
+
+
+def format_question(question):
+    """
+    Replace [Link: '...'] or [Hyperlinked Button: '...'] in question.body with an anchor tag using question.link.
+    If the pattern is not found and link exists, append the link as an anchor tag at the end.
+    Also replaces \n with <br> for HTML line breaks.
+    Returns a string with the formatted body.
+    """
+    if not question or not question.body:
+        return ""
+    body = question.body
+    # Match [Link: '...'] or [Hyperlinked Button: '...']
+    pattern = r"\[(?:Link|Hyperlinked Button): '(.*?)'\]"
+    link_inserted = False
+    if question.link:
+        def replacer(m):
+            nonlocal link_inserted
+            link_inserted = True
+            return f'<a href="{question.link}" target="_blank">{m.group(1)}</a>'
+        body = re.sub(pattern, replacer, body)
+        if not link_inserted:
+            # Append the link as an anchor tag at the end
+            body += f' <a href="{question.link}" target="_blank">{question.link}</a>'
+    # Replace \n with <br>
+    body = body.replace('\n', '<br>')
+    return body
+
