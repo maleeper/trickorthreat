@@ -24,11 +24,11 @@
 {% endif %}
 
 {% csrf_token %}
-<div style="margin-top: 2em;">
+<div id="quiz-choices" style="margin-top: 2em;" >
     <button data-type="phish" data-question-id="{{ question.id }}">Phantom Phish</button>
     <button data-type="treat" data-question-id="{{ question.id }}">True Treat</button>
 </div>
-<div style="margin-top: 2em;">
+<div id="quiz-progression-control" style="margin-top: 2em;" class="hidden">
     {% if end_round %}
     <a href="">Results</a>
     {% else %}
