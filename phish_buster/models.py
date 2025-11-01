@@ -1,3 +1,6 @@
+"""Defines the database models for Questions, PlayerSessions, PlayerAnswers,
+and LeaderboardEntries."""
+
 from django.db import models
 
 
