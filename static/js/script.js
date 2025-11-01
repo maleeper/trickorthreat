@@ -1,3 +1,174 @@
+// ============================================
+// 🎃 SPOOKY NAVBAR ANIMATIONS
+// ============================================
+
+document.addEventListener("DOMContentLoaded", function () {
+    const nav = document.getElementById('mainNav');
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    // ============================================
+    // NAVBAR SCROLL EFFECT
+    // ============================================
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            nav.classList.add('scrolled');
+        } else {
+            nav.classList.remove('scrolled');
+        }
+    });
+
+    // ============================================
+    // MOBILE MENU TOGGLE WITH GSAP
+    // ============================================
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+
+            // GSAP Timeline for menu animation
+            if (navMenu.classList.contains('active')) {
+                const tl = gsap.timeline();
+                
+                tl.to(navMenu, {
+                    duration: 0.4,
+                    ease: "power2.out"
+                });
+
+                // Stagger animate menu items
+                tl.from('.nav-item', {
+                    x: 50,
+                    opacity: 0,
+                    duration: 0.3,
+                    stagger: 0.1,
+                    ease: "back.out(1.7)"
+                }, "-=0.2");
+            }
+        });
+
+        // Close menu when clicking a link
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    }
+
+    // ============================================
+    // SMOOTH SCROLL FOR ANCHOR LINKS
+    // ============================================
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            
+            if (target) {
+                gsap.to(window, {
+                    duration: 1,
+                    scrollTo: {
+                        y: target,
+                        offsetY: 80 // Account for fixed navbar
+                    },
+                    ease: "power2.inOut"
+                });
+            }
+        });
+    });
+
+    // ============================================
+    // NAVBAR LOAD ANIMATION
+    // ============================================
+    const navLoadTL = gsap.timeline();
+
+    navLoadTL.from('.nav-logo', {
+        x: -50,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out"
+    })
+    .from('.nav-item', {
+        y: -30,
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.1,
+        ease: "back.out(1.5)"
+    }, "-=0.4")
+    .from('.nav-neon-line', {
+        scaleX: 0,
+        duration: 1,
+        ease: "power2.inOut"
+    }, "-=0.5");
+
+    // ============================================
+    // LOGO HOVER EFFECT
+    // ============================================
+    const logo = document.querySelector('.nav-logo');
+    if (logo) {
+        logo.addEventListener('mouseenter', () => {
+            gsap.to('.logo-icon', {
+                scale: 1.2,
+                rotation: 15,
+                duration: 0.3,
+                ease: "back.out(2)"
+            });
+        });
+
+        logo.addEventListener('mouseleave', () => {
+            gsap.to('.logo-icon', {
+                scale: 1,
+                rotation: 0,
+                duration: 0.3,
+                ease: "power2.out"
+            });
+        });
+    }
+
+    // ============================================
+    // NAV LINK HOVER PARTICLES
+    // ============================================
+    navLinks.forEach(link => {
+        link.addEventListener('mouseenter', function(e) {
+            // Create a small particle burst effect
+            for (let i = 0; i < 5; i++) {
+                createParticleBurst(e.clientX, e.clientY);
+            }
+        });
+    });
+
+    function createParticleBurst(x, y) {
+        const particle = document.createElement('div');
+        particle.style.cssText = `
+            position: fixed;
+            left: ${x}px;
+            top: ${y}px;
+            width: 4px;
+            height: 4px;
+            background: #ff6b35;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            box-shadow: 0 0 10px #ff6b35;
+        `;
+        document.body.appendChild(particle);
+
+        gsap.to(particle, {
+            x: (Math.random() - 0.5) * 100,
+            y: (Math.random() - 0.5) * 100,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            onComplete: () => particle.remove()
+        });
+    }
+
+    // Rest of your existing script.js code below...
+    console.log("Hello world");
+
+});
+
+
 document.addEventListener("DOMContentLoaded", function () {
   // ----------------------------------------------------------
   // Quiz timer for each question

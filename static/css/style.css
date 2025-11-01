@@ -253,6 +253,362 @@ body {
     }
 }
 
+/* ============================================
+   🎃 SPOOKY NAVBAR STYLES
+   ============================================ */
+
+.spooky-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    background: rgba(10, 10, 18, 0.75);
+    backdrop-filter: blur(20px);
+    border-bottom: 2px solid rgba(255, 69, 0, 0.3);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(255, 69, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* Scroll effect - navbar gets more solid */
+.spooky-nav.scrolled {
+    background: rgba(10, 10, 18, 0.95);
+    border-bottom-color: rgba(255, 69, 0, 0.6);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.7),
+        0 0 60px rgba(255, 69, 0, 0.4);
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+/* ============================================
+   LOGO WITH GLOWING GHOST
+   ============================================ */
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: #fff;
+    position: relative;
+    z-index: 10;
+}
+
+.logo-icon {
+    font-size: 2rem;
+    animation: ghostFloat 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+}
+
+@keyframes ghostFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+.logo-text {
+    position: relative;
+    background: linear-gradient(135deg, #ff6b35, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.05em;
+}
+
+/* Glitch effect on hover */
+.nav-logo:hover .logo-text {
+    animation: glitch 0.3s ease;
+}
+
+@keyframes glitch {
+    0%, 100% { transform: translate(0); }
+    25% { transform: translate(-2px, 2px); }
+    50% { transform: translate(2px, -2px); }
+    75% { transform: translate(-2px, -2px); }
+}
+
+/* ============================================
+   FLOATING PARTICLES
+   ============================================ */
+
+.nav-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    font-size: 1.2rem;
+    opacity: 0.3;
+    animation: particleFloat 15s linear infinite;
+}
+
+.particle:nth-child(1) {
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.particle:nth-child(2) {
+    left: 50%;
+    animation-delay: 5s;
+}
+
+.particle:nth-child(3) {
+    left: 80%;
+    animation-delay: 10s;
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.3;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* ============================================
+   NAVIGATION MENU
+   ============================================ */
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-link {
+    position: relative;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.5rem 0;
+    transition: color 0.3s ease;
+    display: block;
+}
+
+/* Data attribute text for glitch effect */
+.nav-link::before,
+.nav-link::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.nav-link::before {
+    color: #ff6b35;
+    z-index: -1;
+}
+
+.nav-link::after {
+    color: #a855f7;
+    z-index: -2;
+}
+
+/* Neon underline effect */
+.nav-link span {
+    position: relative;
+    display: inline-block;
+}
+
+.nav-link span::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #ff6b35, #a855f7);
+    box-shadow: 0 0 10px rgba(255, 69, 0, 0.8);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover span::after,
+.nav-link.active span::after {
+    width: 100%;
+}
+
+.nav-link:hover {
+    color: #fff;
+}
+
+/* Glitch on hover */
+.nav-link:hover::before {
+    opacity: 0.7;
+    animation: glitchText 0.3s infinite;
+}
+
+@keyframes glitchText {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+/* Active link glow */
+.nav-link.active {
+    color: #ff6b35;
+    text-shadow: 0 0 10px rgba(255, 69, 0, 0.6);
+}
+
+/* ============================================
+   NEON LINE ANIMATION
+   ============================================ */
+
+.nav-neon-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent,
+        #ff6b35,
+        #a855f7,
+        transparent
+    );
+    box-shadow: 0 0 20px rgba(255, 69, 0, 0.8);
+    animation: neonSweep 3s ease-in-out infinite;
+}
+
+@keyframes neonSweep {
+    0%, 100% {
+        left: 0;
+        width: 0;
+    }
+    50% {
+        left: 0;
+        width: 100%;
+    }
+    100% {
+        left: 100%;
+        width: 0;
+    }
+}
+
+/* ============================================
+   HAMBURGER MENU (Mobile)
+   ============================================ */
+
+.nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.nav-hamburger .line {
+    width: 30px;
+    height: 3px;
+    background: linear-gradient(90deg, #ff6b35, #a855f7);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+}
+
+/* Hamburger animation when open */
+.nav-hamburger.active .line:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.nav-hamburger.active .line:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-hamburger.active .line:nth-child(3) {
+    transform: rotate(-45deg) translate(8px, -8px);
+}
+
+/* ============================================
+   RESPONSIVE - MOBILE MENU
+   ============================================ */
+
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 1rem;
+    }
+
+    .nav-hamburger {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: rgba(10, 10, 18, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 6rem 2rem 2rem;
+        gap: 1.5rem;
+        border-left: 2px solid rgba(255, 69, 0, 0.5);
+        box-shadow: -10px 0 50px rgba(0, 0, 0, 0.8);
+        transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .nav-menu.active {
+        right: 0;
+    }
+
+    .nav-link {
+        font-size: 1.25rem;
+    }
+
+    .logo-text {
+        font-size: 0.9rem;
+    }
+}
+
+/* Add padding to body so content doesn't hide under navbar */
+body {
+    padding-top: 80px;
+}
+
 /* Glassmorphism card */
 .glass-card {
     background: rgba(255, 255, 255, 0.06);
