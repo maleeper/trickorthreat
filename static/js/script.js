@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     button.addEventListener("click", function (event) {
       const dataType = button.getAttribute("data-type");
       const questionId = button.getAttribute("data-question-id");
+      const sessionId = button.getAttribute("data-session-id");
 
       if (dataType === "phish" || dataType === "treat") {
         // Get CSRF token from DOM
@@ -13,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
           "[name=csrfmiddlewaretoken]"
         ).value;
 
-        fetch("/quiz", {
+        fetch(`/quiz/${sessionId}/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

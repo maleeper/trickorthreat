@@ -6,7 +6,11 @@
     <h1 class="title" id="mainTitle">TRICK OR THREAT</h1>
 </div>
 
-{% if question.type == "email" %}
+<div class="d-flex justify-content-between">
+    <div>Score: <span>{{ score }}</span></div>
+    <div>Q<span>{{ question_number }}/{{ total_questions }}</span></div>
+</div>
+
 <div class="email-quiz">
     <div class="email-header">
         <strong>From:</strong> {{ question.sender }}<br>
@@ -21,18 +25,17 @@
     </div>
     {% endif %}
 </div>
-{% endif %}
 
 {% csrf_token %}
 <div id="quiz-choices" style="margin-top: 2em;" >
-    <button data-type="phish" data-question-id="{{ question.id }}">Phantom Phish</button>
-    <button data-type="treat" data-question-id="{{ question.id }}">True Treat</button>
+    <button data-type="phish" data-question-id="{{ question.id }}" data-session-id="{{ session_id }}">Phantom Phish</button>
+    <button data-type="treat" data-question-id="{{ question.id }}"" data-session-id="{{ session_id }}">True Treat</button>
 </div>
 <div id="quiz-progression-control" style="margin-top: 2em;" class="hidden">
     {% if end_round %}
     <a href="">Results</a>
     {% else %}
-    <a href="{% url 'quiz' %}">Next</a>
+    <a href="{% url 'quiz_with_session_id' session_id %}">Next</a>
     {% endif %}
 </div>
 {% endblock content %}

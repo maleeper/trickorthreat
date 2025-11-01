@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Question, PlayerSession, PlayerAnswer
 
-# Register your models here.
+
+admin.site.register(Question)
+admin.site.register(PlayerSession)
+admin.site.register(PlayerAnswer)
