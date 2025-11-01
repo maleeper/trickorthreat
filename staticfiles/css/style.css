@@ -13,6 +13,10 @@ body {
     color: #fff;
 }
 
+.hidden {
+    display: none;
+}
+
 /* Canvas for particles */
 #particleCanvas {
     position: fixed;

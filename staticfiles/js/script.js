@@ -20,15 +20,20 @@ document.addEventListener("DOMContentLoaded", function () {
             "X-CSRFToken": csrfToken,
             "X-Requested-With": "XMLHttpRequest",
           },
-          body: JSON.stringify({ 
-            answer: dataType,
-            question: questionId,
+          body: JSON.stringify({
+            answer: {
+              question: questionId,
+              choice: dataType,
+            },
           }),
         })
           .then((response) => response.json())
           .then((data) => {
             // Handle response data here
             console.log(data);
+            // Display progression controls
+            document.getElementById("quiz-progression-control").classList.remove("hidden");
+            document.getElementById("quiz-choices").classList.add("hidden");
           })
           .catch((error) => {
             console.error("Error:", error);
