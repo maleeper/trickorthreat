@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Scanner Section -->
+<section class="scanner-section">
+    {% csrf_token %}
+    <div class="scanner-container">
+        <h2 class="scanner-title">Scan a URL</h2>
+        <div class="input-group">
+            <input type="text" class="url-input" placeholder="https://definitely-not-suspicious.com" id="urlInput">
+            <button class="scan-btn" id="scanBtn" data-type="url-scan"><span>Scan</span></button>
+        </div>
+        <p style="text-align: center; color: rgba(255,255,255,0.4); font-size: 0.875rem;">
+            Paste any URL to check if it's a trick or a treat
+        </p>
+    </div>
+</section>
+<section id="scan-results"></section>
+{% endblock content %}

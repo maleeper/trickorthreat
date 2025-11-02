@@ -4,6 +4,7 @@ import re
 from django.shortcuts import render
 from django.http import JsonResponse
 from .models import Question, PlayerSession, PlayerAnswer
+from .urlscan import UrlScanApiService
 
 
 # Quiz settings
@@ -17,6 +18,7 @@ def home(request):
         template_name='phish_buster/index.html',
     )
 
+
 def team(request):
     """
     Displays the team page with all Phantom Phishers members.
@@ -25,6 +27,77 @@ def team(request):
         request=request,
         template_name='phish_buster/team.html',
     )
+
+
+def scanner(request):
+    """
+    Handles AJAX POST for URL scanning (urlscan.io API).
+    Renders the scanner page for GET requests.
+    """
+    if (
+        request.method == "POST"
+        and request.headers.get("x-requested-with") == "XMLHttpRequest"
+    ):
+        try:
+            data = json.loads(request.body)
+            url = data.get("url")
+            uuid = data.get("uuid")
+            if url:
+                # Step 1: Submit scan, return uuid
+                submission_json = UrlScanApiService.submit_scan(url)
+                uuid = submission_json.get("uuid")
+                if not uuid:
+                    return JsonResponse(
+                        {
+                            "success": False,
+                            "error": "No uuid returned from urlscan.io."
+                        },
+                        status=502,
+                    )
+                return JsonResponse(
+                    {
+                        "success": True,
+                        "uuid":
+                            uuid,
+                        "status": "pending",
+                    }
+                )
+            elif uuid:
+                # Step 2: Poll for result
+                result_json = UrlScanApiService.get_scan_result(
+                    uuid,
+                    max_wait=1
+                )
+                if result_json:
+                    resp = {
+                        "success": True,
+                        "result": result_json,
+                        "status": "complete",
+                    }
+                    return JsonResponse(resp)
+                else:
+                    return JsonResponse({"success": True, "status": "pending"})
+            else:
+                return JsonResponse(
+                    {
+                        "success": False,
+                        "error": "Missing 'url' or 'uuid' in request body"
+                     },
+                    status=400,
+                )
+        except Exception as e:
+            return JsonResponse({
+                "success": False,
+                "error": str(e)},
+                status=400
+            )
+
+    # GET: render scanner page
+    return render(
+        request=request,
+        template_name='phish_buster/scanner.html',
+    )
+
 
 def quiz(request, session_id=None):
     """
@@ -155,10 +228,11 @@ def check_result(question, choice, secs_left):
 
 def format_question(question):
     """
-    Replace [Link: '...'] or [Hyperlinked Button: '...'] in question.body with an anchor tag using question.link.
-    If the pattern is not found and link exists, append the link as an anchor tag at the end.
-    Also replaces \n with <br> for HTML line breaks.
-    Returns a string with the formatted body.
+    Replace [Link: '...'] or [Hyperlinked Button: '...'] in question.body
+    with an anchor tag using question.link. If the pattern is not found and
+    link exists, append the link as an anchor tag at the end. Also replaces
+    \n with <br> for HTML line breaks. Returns a string with the formatted
+    body.
     """
     if not question or not question.body:
         return ""
@@ -170,12 +244,16 @@ def format_question(question):
         def replacer(m):
             nonlocal link_inserted
             link_inserted = True
-            return f'<a href="{question.link}" target="_blank">{m.group(1)}</a>'
+            return (
+                f'<a href="{question.link}" target="_blank">{m.group(1)}</a>'
+            )
         body = re.sub(pattern, replacer, body)
-        if not link_inserted:
-            # Append the link as an anchor tag at the end
-            body += f' <a href="{question.link}" target="_blank">{question.link}</a>'
+    if not link_inserted:
+        # Append the link as an anchor tag at the end
+        body += (
+            f' <a href="{question.link}" target="_blank">'
+            f'{question.link}</a>'
+        )
     # Replace \n with <br>
     body = body.replace('\n', '<br>')
     return body
-
