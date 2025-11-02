@@ -353,9 +353,9 @@ document.addEventListener("DOMContentLoaded", function () {
   function updateTimer(timerDisplay, timeLeft, timerInterval) {
     const minutes = Math.floor(timeLeft.value / 60);
     const seconds = timeLeft.value % 60;
-    timerDisplay.textContent = `Timer: ${minutes
+    timerDisplay.textContent = `${minutes.toString().padStart(2, "0")}:${seconds
       .toString()
-      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+      .padStart(2, "0")}`;
     if (timeLeft.value <= 0) {
       clearInterval(timerInterval);
       timerDisplay.textContent = "Time's up!";
@@ -458,10 +458,13 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!resultsDiv) return;
 
     // Defensive checks for nested properties
-    const verdicts = result.verdicts && result.verdicts.urlscan ? result.verdicts.urlscan : {};
+    const verdicts =
+      result.verdicts && result.verdicts.urlscan ? result.verdicts.urlscan : {};
     const score = verdicts.score !== undefined ? verdicts.score : "N/A";
-    const malicious = verdicts.malicious !== undefined ? verdicts.malicious : "N/A";
-    const reportURL = result.task && result.task.reportURL ? result.task.reportURL : null;
+    const malicious =
+      verdicts.malicious !== undefined ? verdicts.malicious : "N/A";
+    const reportURL =
+      result.task && result.task.reportURL ? result.task.reportURL : null;
 
     let html = `<div><strong>Score:</strong> ${score}</div>`;
     html += `<div><strong>Malicious:</strong> ${malicious}</div>`;
@@ -476,7 +479,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // QUIZ RESULTS AUDIO
   // ============================================
   const quizConfig = document.getElementById("quiz-config");
-  const audioBase = quizConfig ? quizConfig.getAttribute("data-audio-base") : null;
+  const audioBase = quizConfig
+    ? quizConfig.getAttribute("data-audio-base")
+    : null;
   const audioCache = {};
   let currentNarration = null;
 
@@ -554,25 +559,54 @@ document.addEventListener("DOMContentLoaded", function () {
           .then((data) => {
             console.log(data);
 
-            const resultsDiv = document.getElementById("quiz-results");
-            if (resultsDiv) {
-              // Clear previous content
-              resultsDiv.innerHTML = "";
+            // const resultsDiv = document.getElementById("quiz-results");
+            // if (resultsDiv) {
+            //   // Clear previous content
+            //   resultsDiv.innerHTML = "";
 
-              // Result (Correct/Incorrect)
-              const resultDiv = document.createElement("div");
-              resultDiv.className = "quiz-result-main";
-              resultDiv.textContent = data.correct ? "Correct!" : "Incorrect.";
-              resultsDiv.appendChild(resultDiv);
+            //   // Result (Correct/Incorrect)
+            //   const resultDiv = document.createElement("div");
+            //   resultDiv.className = "quiz-result-main";
+            //   resultDiv.textContent = data.correct ? "Correct!" : "Incorrect.";
+            //   resultsDiv.appendChild(resultDiv);
 
-              // Explanation
-              if (data.explanation) {
-                const explanationDiv = document.createElement("div");
-                explanationDiv.className = "quiz-result-explanation";
-                explanationDiv.textContent = `Explanation: ${data.explanation}`;
-                resultsDiv.appendChild(explanationDiv);
-              }
+            //   // Explanation
+            //   if (data.explanation) {
+            //     const explanationDiv = document.createElement("div");
+            //     explanationDiv.className = "quiz-result-explanation";
+            //     explanationDiv.textContent = `Explanation: ${data.explanation}`;
+            //     resultsDiv.appendChild(explanationDiv);
+            //   }
+            // }
+
+            const modal = document.getElementById("quizResultModal");
+            const modalResult = document.getElementById("modalResult");
+            const modalExplanation =
+              document.getElementById("modalExplanation");
+            const closeModalBtn = document.getElementById("closeQuizModal");
+
+            if (modal && modalResult && modalExplanation) {
+              // Set content
+              modalResult.innerHTML = data.correct
+                ? `<span style="color:#FF6B35; font-size:2rem;">🎃 Correct! 🎉</span>`
+                : `<span style="color:#8B0000; font-size:2rem;">💀 Incorrect! 👻</span>`;
+              modalResult.className = "quiz-result-main";
+              modalExplanation.textContent = data.explanation
+                ? `Explanation: ${data.explanation}`
+                : "";
+              modalExplanation.className = "quiz-result-explanation";
+              // Show modal
+              modal.classList.remove("hidden");
             }
+
+            // Close modal on click
+            if (closeModalBtn && modal) {
+              closeModalBtn.onclick = () => modal.classList.add("hidden");
+            }
+            // Optional: close on outside click
+            modal?.addEventListener("click", function (e) {
+              if (e.target === modal) modal.classList.add("hidden");
+            });
 
             playQuestionNarration(questionId);
 
@@ -626,14 +660,19 @@ document.addEventListener("DOMContentLoaded", function () {
           });
       } else if (dataType === "start-quiz") {
         // Prompt for username (you can use a modal or prompt for simplicity)
-        let username = prompt("Enter your nickname for the leaderboard (max 20 chars):", "");
+        let username = prompt(
+          "Enter your nickname for the leaderboard (max 20 chars):",
+          ""
+        );
         if (!username) {
           alert("You must enter a username to start the quiz.");
           return;
         }
         username = username.trim().substring(0, 20);
 
-        const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]")?.value;
+        const csrfToken = document.querySelector(
+          "[name=csrfmiddlewaretoken]"
+        )?.value;
 
         fetch("/quiz/", {
           method: "POST",
@@ -656,7 +695,7 @@ document.addEventListener("DOMContentLoaded", function () {
           .catch((error) => {
             alert("Error starting quiz: " + error);
           });
-      } 
+      }
     });
   });
 

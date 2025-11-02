@@ -2,67 +2,92 @@
 {% load static %}
 
 {% block content %}
-<!-- Halloween Themed Title and Intro -->
-<div class="title-container" id="titleContainer">
-    <h1 class="title" id="mainTitle">
-        The Phishing Test
-    </h1>
-</div>
-{% if not session_id %}
-<div class="start-quiz-container">
-    <p class="quiz-intro" >
-        <span style="font-size: 1.5rem;">🕸️</span>
-        Welcome to the <strong>Phantom Phishers</strong> Halloween Phishing Quiz! <br>
-        Can you spot the tricks from the treats? Test your cyber-smarts by identifying real vs. fake emails and see if you can outsmart the phantoms lurking in your inbox. <br>
-        <span>Score high, climb the leaderboard, and claim your place as a true cyber-sleuth!</span>
-        <span style="font-size: 1.5rem;">🦇</span>
-    </p>
-    {% csrf_token %}
-    <button data-type="start-quiz" class="btn btn-primary">Start Quiz</button>
-</div>
-{% else %}
-<div class="d-flex justify-content-between">
-    <div>Score: <span id="user-score">{{ score }}</span></div>
-    <div id="quiz-timer" data-timer-value="{{ timer_value }}"></div>
-    <div>Q<span>{{ question_number }}/{{ total_questions }}</span></div>
-</div>
-
-<div id="quiz-config" data-audio-base="{% static 'audio' %}"></div>
-
-<div class="email-quiz">
-    <div class="email-header">
-        <strong>From:</strong> {{ question.sender }}<br>
-        <strong>Subject:</strong> {{ question.subject }}
+<div class="container">
+    <!-- Halloween Themed Title and Intro -->
+    <div class="title-container" id="titleContainer">
+        <h1 class="title" id="mainTitle">
+            The Phishing Test
+        </h1>
     </div>
-    <div class="email-body" style="margin-top: 1em; white-space: pre-line;">
-        {{ question_body_formatted|safe }}
+    {% if not session_id %}
+    <div class="start-quiz-container glass-card text-center" id="mainCard">
+        <h2>
+            <span>🕸️</span>
+            Welcome to the <strong>Phantom Phishers</strong> Halloween Phishing Quiz!
+        </h2>
+        <p class="quiz-intro">
+            Can you spot the tricks from the treats? Test your cyber-smarts by identifying real vs. fake emails and see
+            if you can outsmart the phantoms lurking in your inbox. <br>
+            <span>Score high, climb the leaderboard, and claim your place as a true cyber-sleuth!</span>
+            <span style="font-size: 1.5rem;">🦇</span>
+        </p>
+        {% csrf_token %}
+        <button data-type="start-quiz" class="btn btn-primary">Start Quiz</button>
     </div>
-    {% if question.attachments %}
-    <div class="email-attachments" style="margin-top: 1em;">
-        <strong>Attachments:</strong>
-        {% if question.link %}
-        <a href="{{ question.link }}" target="_blank">{{ question.attachments }}</a>
-        {% else %}
-        {{ question.attachments }}
+    {% else %}
+    <div class="quiz-status-bar d-flex justify-content-between align-items-center">
+        <div class="quiz-status-item">
+            <span class="quiz-status-icon" aria-label="Question" title="Question">🦇</span>
+            <span class="quiz-status-label">Q</span>
+            <span class="quiz-status-value">{{ question_number }}/{{ total_questions }}</span>
+        </div>
+        <div class="quiz-status-item">
+            <span class="quiz-status-icon" aria-label="Timer" title="Timer">⏰</span>
+            <span class="quiz-status-label">Timer:</span>
+            <span id="quiz-timer" class="quiz-status-value" data-timer-value="{{ timer_value }}"></span>
+        </div>
+        <div class="quiz-status-item">
+            <span class="quiz-status-icon" aria-label="Score" title="Score">🎃</span>
+            <span class="quiz-status-label">Score:</span>
+            <span id="user-score" class="quiz-status-value">{{ score }}</span>
+        </div>
+    </div>
+
+    <div id="quiz-config" data-audio-base="{% static 'audio' %}"></div>
+
+    <div class="email-quiz glass-card">
+        <div class="email-header">
+            <strong>From:</strong> {{ question.sender }}<br>
+            <strong>Subject:</strong> {{ question.subject }}
+        </div>
+        <div class="email-body" style="margin-top: 1em; white-space: pre-line;">
+            {{ question_body_formatted|safe }}
+        </div>
+        {% if question.attachments %}
+        <div class="email-attachments" style="margin-top: 1em;">
+            <strong>Attachments:</strong>
+            {% if question.link %}
+            <a href="{{ question.link }}" target="_blank">{{ question.attachments }}</a>
+            {% else %}
+            {{ question.attachments }}
+            {% endif %}
+        </div>
         {% endif %}
     </div>
-    {% endif %}
-</div>
 
-{% csrf_token %}
-<div id="quiz-choices" style="margin-top: 2em;">
-    <button data-type="phish" data-question-id="{{ question.id }}" data-session-id="{{ session_id }}">Phantom
-        Phish</button>
-    <button data-type="treat" data-question-id="{{ question.id }}" data-session-id="{{ session_id }}">True
-        Treat</button>
-</div>
-<div id="quiz-progression-control" style="margin-top: 2em;" class="hidden">
-    {% if end_round %}
-    <a href="{% url 'leaderboard_with_session_id' session_id %}">Results</a>
-    {% else %}
-    <a href="{% url 'quiz_with_session_id' session_id %}">Next</a>
+    {% csrf_token %}
+    <div id="quiz-choices" style="margin-top: 2em;">
+        <button data-type="phish" data-question-id="{{ question.id }}" data-session-id="{{ session_id }}">Phantom
+            Phish</button>
+        <button data-type="treat" data-question-id="{{ question.id }}" data-session-id="{{ session_id }}">True
+            Treat</button>
+    </div>
+    <div id="quiz-progression-control" style="margin-top: 2em;" class="hidden">
+        {% if end_round %}
+        <a href="{% url 'leaderboard_with_session_id' session_id %}" class="btn">Results</a>
+        {% else %}
+        <a href="{% url 'quiz_with_session_id' session_id %}" class="btn">Next</a>
+        {% endif %}
+    </div>
+    <!-- <div id="quiz-results"></div> -->
+    <!-- Quiz Result Modal -->
+    <div id="quizResultModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal" id="closeQuizModal">&times;</span>
+            <div id="modalResult"></div>
+            <div id="modalExplanation"></div>
+        </div>
+    </div>
     {% endif %}
 </div>
-<div id="quiz-results"></div>
-{% endif %}
 {% endblock content %}
