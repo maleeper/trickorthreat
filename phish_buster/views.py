@@ -9,7 +9,7 @@ from .urlscan import UrlScanApiService
 
 # Quiz settings
 QUESTIONS_PER_ROUND = 10
-TIMER_SECS_PER_QUESTION = 300
+TIMER_SECS_PER_QUESTION = 50
 
 
 def home(request):
@@ -291,7 +291,7 @@ def check_result(question, choice, secs_left):
     return {
         "success": True,
         "received": choice,
-        "explanation": question.tactic_context,
+        "explanation": question.content,
         "tips": "Maybe add some tips",
         "correct": user_correct,
         "score": score,

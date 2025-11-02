@@ -473,6 +473,43 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ============================================
+  // QUIZ RESULTS AUDIO
+  // ============================================
+  const quizConfig = document.getElementById("quiz-config");
+  const audioBase = quizConfig ? quizConfig.getAttribute("data-audio-base") : null;
+  const audioCache = {};
+  let currentNarration = null;
+
+  function stopCurrentNarration() {
+    if (!currentNarration) {
+      return;
+    }
+    currentNarration.pause();
+    currentNarration.currentTime = 0;
+    currentNarration = null;
+  }
+
+  function playQuestionNarration(questionId) {
+    if (!audioBase || !questionId) {
+      return;
+    }
+
+    const formattedId = questionId.toString().padStart(5, "0");
+    const audioPath = `${audioBase}/${formattedId}_NARRATOR.mp3`;
+
+    stopCurrentNarration();
+
+    if (!audioCache[audioPath]) {
+      audioCache[audioPath] = new Audio(audioPath);
+    }
+
+    currentNarration = audioCache[audioPath];
+    currentNarration
+      .play()
+      .catch((error) => console.warn("Unable to play narration", error));
+  }
+
+  // ============================================
   // BUTTON HANDLERS WITH BLOOD EFFECTS
   // ============================================
   document.querySelectorAll("button").forEach((button) => {
@@ -496,6 +533,8 @@ document.addEventListener("DOMContentLoaded", function () {
           "[name=csrfmiddlewaretoken]"
         )?.value;
 
+        stopCurrentNarration();
+
         fetch(`/quiz/${sessionId}/`, {
           method: "POST",
           headers: {
@@ -517,12 +556,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const resultsDiv = document.getElementById("quiz-results");
             if (resultsDiv) {
-              let resultText = data.correct ? "Correct!" : "Incorrect.";
+              // Clear previous content
+              resultsDiv.innerHTML = "";
+
+              // Result (Correct/Incorrect)
+              const resultDiv = document.createElement("div");
+              resultDiv.className = "quiz-result-main";
+              resultDiv.textContent = data.correct ? "Correct!" : "Incorrect.";
+              resultsDiv.appendChild(resultDiv);
+
+              // Explanation
               if (data.explanation) {
-                resultText += `\nExplanation: ${data.explanation}`;
+                const explanationDiv = document.createElement("div");
+                explanationDiv.className = "quiz-result-explanation";
+                explanationDiv.textContent = `Explanation: ${data.explanation}`;
+                resultsDiv.appendChild(explanationDiv);
               }
-              resultsDiv.textContent = resultText;
             }
+
+            playQuestionNarration(questionId);
 
             const scoreDisplay = document.getElementById("user-score");
             if (scoreDisplay && typeof data.score !== "undefined") {
@@ -604,9 +656,7 @@ document.addEventListener("DOMContentLoaded", function () {
           .catch((error) => {
             alert("Error starting quiz: " + error);
           });
-      } else {
-        alert("Feature not yet implemented");
-      }
+      } 
     });
   });
 
