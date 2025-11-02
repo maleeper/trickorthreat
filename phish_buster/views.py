@@ -17,6 +17,14 @@ def home(request):
         template_name='phish_buster/index.html',
     )
 
+def team(request):
+    """
+    Displays the team page with all Phantom Phishers members.
+    """
+    return render(
+        request=request,
+        template_name='phish_buster/team.html',
+    )
 
 def quiz(request, session_id=None):
     """

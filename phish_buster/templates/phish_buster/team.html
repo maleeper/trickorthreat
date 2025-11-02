@@ -1,0 +1,294 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    /* ============================================
+       🩸 PHANTOM PHISHERS - THEME
+       ============================================ */
+    @font-face {
+        font-family: 'YouMurderer';
+        src: url("{% static 'fonts/zombiesbrainless.ttf' %}") format('truetype');
+    }
+    :root {
+        --blood-red: #8B0000; --neon-orange: #FF4500; --toxic-orange: #FF6B35;
+        --black-void: #0a0a0a; --dark-grey: #1a1a1a; --ash-grey: #2a2a2a;
+        --blood-glow: rgba(139, 0, 0, 0.5); --fire-glow: rgba(255, 69, 0, 0.6);
+    }
+    body {
+        background-color: var(--black-void);
+        font-family: 'Space Grotesk', -apple-system, sans-serif;
+        color: #fff;
+        overflow-x: hidden;
+    }
+
+    /* ============================================
+       🔥 HERO SECTION & SCROLL INDICATOR
+       ============================================ */
+    .team-hero {
+        height: 100vh;
+        display: flex; flex-direction: column; align-items: center;
+        justify-content: center; text-align: center;
+        background: radial-gradient(circle at 50% 50%, var(--dark-grey) 0%, var(--black-void) 80%);
+        position: relative;
+    }
+    .hero-title {
+        font-family: 'YouMurderer', cursive; font-size: clamp(4rem, 12vw, 8rem);
+        color: var(--toxic-orange);
+        text-shadow: 3px 3px 0 var(--blood-red), 0 0 40px var(--fire-glow);
+        letter-spacing: 0.1em;
+    }
+    .scroll-down-indicator {
+        position: absolute;
+        bottom: 8vh;
+        left: 50%;
+        transform: translateX(-50%);
+        cursor: pointer;
+        animation: bounce 2.5s infinite ease-in-out;
+    }
+    .scroll-down-indicator svg {
+        width: 50px; height: 50px;
+        color: var(--neon-orange);
+        filter: drop-shadow(0 0 10px var(--fire-glow));
+        transition: transform 0.3s ease;
+    }
+    .scroll-down-indicator:hover svg {
+        transform: scale(1.1);
+    }
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+        40% { transform: translateX(-50%) translateY(-20px); }
+        60% { transform: translateX(-50%) translateY(-10px); }
+    }
+
+    /* ============================================
+       🩸 DEVDATYL.IE STYLE TEAM SECTION
+       ============================================ */
+    .team-container {
+        position: relative;
+        z-index: 2; /* Ensure it renders correctly over any fixed elements */
+        background-color: var(--black-void); /* Add background to avoid transparency issues */
+    }
+    .team-member-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 90vh;
+        padding: 5vh 5vw;
+        gap: 2rem;
+    }
+    .team-member-item.layout-right {
+        flex-direction: row-reverse;
+    }
+    .member-details {
+        flex-basis: 40%; max-width: 500px;
+        background: var(--dark-grey);
+        border: 2px solid var(--blood-red);
+        border-radius: 16px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+        text-align: center;
+    }
+    .member-visual {
+        flex-basis: 55%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .visual-emoji {
+        font-size: clamp(12rem, 20vw, 20rem);
+        filter: drop-shadow(0 0 50px var(--fire-glow));
+        opacity: 0.8;
+    }
+    .image-placeholder {
+        width: 120px; height: 120px; border-radius: 50%;
+        background-color: var(--ash-grey); margin: 0 auto 1.5rem auto;
+        border: 3px solid var(--blood-red); background-size: cover; background-position: center;
+    }
+    .member-name {
+        font-family: 'YouMurderer', cursive; font-size: clamp(2.5rem, 4vw, 3.5rem);
+        letter-spacing: 0.1em; margin: 0;
+    }
+    .member-role {
+        font-size: 1rem; color: var(--neon-orange); text-transform: uppercase;
+        letter-spacing: 0.1em; margin: 0.5rem 0 2rem; font-weight: 700;
+    }
+    .member-links { display: flex; gap: 1rem; justify-content: center; }
+    .social-link {
+        width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
+        background: var(--ash-grey); border-radius: 50%; color: var(--toxic-orange);
+        transition: all 0.3s ease;
+    }
+    .social-link:hover {
+        background: var(--neon-orange); color: var(--black-void);
+        transform: scale(1.1);
+    }
+    .social-link svg { width: 24px; height: 24px; }
+    @media (max-width: 768px) {
+        .team-member-item, .team-member-item.layout-right {
+            flex-direction: column-reverse;
+            min-height: 0; padding: 10vh 5vw;
+        }
+        .member-details {
+            flex-basis: auto; width: 100%;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="team-hero">
+    <h1 class="hero-title">MEET THE TEAM</h1>
+    <div class="scroll-down-indicator" id="scroll-down">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75l3 3m0 0l3-3m-3 3v-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+    </div>
+</section>
+
+<!-- Team Section -->
+<div class="team-container" id="team-container">
+    
+    <!-- Member 1: Kim (Layout Left) -->
+    <section class="team-member-item">
+        <div class="member-details">
+            <div class="image-placeholder" style="background-image: url('{% static 'images/team/kim.jpg' %}')"></div>
+            <h2 class="member-name">KIM</h2>
+            <p class="member-role">Scrum Master / Frontend</p>
+            <div class="member-links">
+                <a href="https://github.com/kimatron" target="_blank" class="social-link" title="GitHub"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
+                <a href="https://linkedin.com/in/kimatron" target="_blank" class="social-link" title="LinkedIn"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+            </div>
+        </div>
+        <div class="member-visual"><div class="visual-emoji">👻</div></div>
+    </section>
+
+    <!-- Member 2: Dinesh (Layout Right) -->
+    <section class="team-member-item layout-right">
+        <div class="member-details">
+            <div class="image-placeholder" style="background-image: url('{% static 'images/team/dinesh.jpg' %}')"></div>
+            <h2 class="member-name">DINESH</h2>
+            <p class="member-role">Backend Developer</p>
+            <div class="member-links">
+                <a href="https://github.com/sthDINESH" target="_blank" class="social-link" title="GitHub"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
+                <a href="https://linkedin.com/in/sthdinesh" target="_blank" class="social-link" title="LinkedIn"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+            </div>
+        </div>
+        <div class="member-visual"><div class="visual-emoji">🧛</div></div>
+    </section>
+
+    <!-- Member 3: Shuayb -->
+    <section class="team-member-item">
+        <div class="member-details">
+            <div class="image-placeholder" style="background-image: url('{% static 'images/team/shuayb.jpg' %}')"></div>
+            <h2 class="member-name">SHUAYB</h2>
+            <p class="member-role">Backend Developer</p>
+            <div class="member-links">
+                <a href="https://github.com/ShuaybAi" target="_blank" class="social-link" title="GitHub"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
+                <a href="https://linkedin.com/in/shuaybai" target="_blank" class="social-link" title="LinkedIn"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+            </div>
+        </div>
+        <div class="member-visual"><div class="visual-emoji">🎃</div></div>
+    </section>
+
+    <!-- Member 4: Mark (Layout Right) -->
+    <section class="team-member-item layout-right">
+        <div class="member-details">
+            <div class="image-placeholder" style="background-image: url('{% static 'images/team/mark.jpg' %}')"></div>
+            <h2 class="member-name">MARK</h2>
+            <p class="member-role">Design / Content</p>
+            <div class="member-links">
+                <a href="https://github.com/maleeper" target="_blank" class="social-link" title="GitHub"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
+                <a href="https://linkedin.com/in/maleeper" target="_blank" class="social-link" title="LinkedIn"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+            </div>
+        </div>
+        <div class="member-visual"><div class="visual-emoji">🦇</div></div>
+    </section>
+
+    <!-- Member 5: Sanchia (Layout Left) -->
+    <section class="team-member-item">
+        <div class="member-details">
+            <div class="image-placeholder" style="background-image: url('{% static 'images/team/sanchia.jpg' %}')"></div>
+            <h2 class="member-name">SANCHIA</h2>
+            <p class="member-role">Frontend Developer</p>
+            <div class="member-links">
+                <a href="https://github.com/Chia-Codes" target="_blank" class="social-link" title="GitHub"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
+                <a href="https://linkedin.com/in/chia-codes" target="_blank" class="social-link" title="LinkedIn"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+            </div>
+        </div>
+        <div class="member-visual"><div class="visual-emoji">💀</div></div>
+    </section>
+
+    <!-- Member 6: Akram (Layout Right) -->
+    <section class="team-member-item layout-right">
+        <div class="member-details">
+            <div class="image-placeholder" style="background-image: url('{% static 'images/team/akram.jpg' %}')"></div>
+            <h2 class="member-name">AKRAM</h2>
+            <p class="member-role">Full Stack Warlock</p>
+            <div class="member-links">
+                <a href="https://github.com/AL-MASNAI" target="_blank" class="social-link" title="GitHub"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
+                <a href="https://linkedin.com/in/al-masnai" target="_blank" class="social-link" title="LinkedIn"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+            </div>
+        </div>
+        <div class="member-visual"><div class="visual-emoji">🔥</div></div>
+    </section>
+
+</div>
+
+<!-- GSAP and Plugins -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollToPlugin.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    if (typeof gsap === 'undefined') { console.error("GSAP not loaded!"); return; }
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+    // --- HERO SCROLL-DOWN BUTTON ---
+    const scrollDownBtn = document.getElementById("scroll-down");
+    const teamContainer = document.getElementById("team-container");
+    if (scrollDownBtn && teamContainer) {
+        scrollDownBtn.addEventListener("click", () => {
+            gsap.to(window, {
+                duration: 1.5,
+                scrollTo: { y: teamContainer, autoKill: true },
+                ease: "power2.inOut"
+            });
+        });
+    }
+
+    const memberItems = gsap.utils.toArray(".team-member-item");
+    memberItems.forEach(item => {
+        const detailsCard = item.querySelector(".member-details");
+        const visualElement = item.querySelector(".member-visual");
+        const isRightLayout = item.classList.contains("layout-right");
+        const xPercentStart = isRightLayout ? 100 : -100;
+
+        gsap.set(detailsCard, { xPercent: xPercentStart, autoAlpha: 0 });
+        gsap.set(visualElement, { scale: 0.5, autoAlpha: 0 });
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: item,
+                start: "top 75%",
+                end: "bottom center",
+                scrub: true, // CORRECTED: This provides a tight, 1-to-1 scroll link
+            }
+        });
+
+        tl.to(detailsCard, {
+            xPercent: 0,
+            autoAlpha: 1,
+            ease: "power2.out",
+        })
+        .to(visualElement, {
+            scale: 1,
+            autoAlpha: 1,
+            ease: "power2.out",
+        }, "<");
+    });
+});
+</script>
+
+{% endblock content %}
