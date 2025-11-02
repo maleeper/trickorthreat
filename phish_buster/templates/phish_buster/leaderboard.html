@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container leaderboard-container">
+    <h1 class="title">🏆 Leaderboard 🏆</h1>
+
+    {% if session_id and score is not None %}
+        <section class="session-summary">
+            <h2>Your Session Results</h2>
+            <div>
+                <strong>Score:</strong>
+                <span id="user-score">{{ score }}</span>
+            </div>
+            <div>
+                <strong>Accuracy:</strong>
+                {% if questions_attempted > 0 %}
+                    {{ correct_answers|floatformat:2 }} / {{ questions_attempted }} 
+                    ({{ accuracy_percent|floatformat:2 }}%)
+                {% else %}
+                    0%
+                {% endif %}
+            </div>
+            <div>
+                <h3>Questions Attempted</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Type</th>
+                            <th>Result</th>
+                            <th>Explanation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ans in session_answers %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ ans.question.type }}</td>
+                            <td>
+                                {% if ans.is_correct %}
+                                    <span style="color: green;">Correct</span>
+                                {% else %}
+                                    <span style="color: red;">Incorrect</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ ans.question.tactic_context }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    {% endif %}
+
+    <section class="top-leaderboard">
+        <h2>Top 10 Scores</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Username</th>
+                    <th>Score</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in leaderboard_entries %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ entry.username }}</td>
+                    <td>{{ entry.score }}</td>
+                    <td>{{ entry.timestamp|date:"Y-m-d H:i" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No entries yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</div>
+{% endblock content %}

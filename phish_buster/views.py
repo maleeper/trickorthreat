@@ -1,9 +1,9 @@
 import json
 import random
 import re
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from .models import Question, PlayerSession, PlayerAnswer
+from .models import Question, PlayerSession, PlayerAnswer, LeaderboardEntry
 from .urlscan import UrlScanApiService
 
 
@@ -102,21 +102,32 @@ def scanner(request):
 def quiz(request, session_id=None):
     """
     Displays a question related to model:`Question`
-    Handles AJAX POST for quiz answers.
+    Handles AJAX POST for quiz answers and starting a new quiz session.
     """
     session = None
     if session_id is not None:
-        session = PlayerSession.objects.filter(
-            id=session_id
-        ).first()
+        session = PlayerSession.objects.filter(id=session_id).first()
 
-    if request.method == "POST" and (
+    # Handle POST: Start Quiz (AJAX or form)
+    if session_id is None and request.method == "POST":
+        # Support both AJAX and form POST
+        if request.headers.get("x-requested-with") == "XMLHttpRequest":
+            data = json.loads(request.body)
+            username = data.get("username", "").strip()[:20] or "anonymous"
+            session = PlayerSession.objects.create(username=username, score=0)
+            return JsonResponse({"session_id": session.id})
+        else:
+            # Fallback for non-AJAX form POST
+            username = request.POST.get("username", "anonymous").strip()[:20]
+            session = PlayerSession.objects.create(username=username, score=0)
+            return redirect("quiz_with_session_id", session_id=session.id)
+
+    # Handle POST: Quiz answer
+    if session_id is not None and request.method == "POST" and (
         request.headers.get("x-requested-with") == "XMLHttpRequest"
     ):
         data = json.loads(request.body)
         user_answer = data.get("answer", {})
-
-        print("POST body:", data)
 
         question_id = int(user_answer.get("question"))
         choice = user_answer.get("choice")
@@ -153,14 +164,24 @@ def quiz(request, session_id=None):
 
         return JsonResponse(result)
 
-    # Handle GET requests
+    # Handle GET requests (or initial page load)
     if session is None:
-        session = PlayerSession.objects.create(username="anonymous", score=0)
+        return render(
+            request=request,
+            context={
+                'session_id': None,
+                'question': None,
+                'question_body_formatted': None,
+                'question_number': 0,
+                'total_questions': QUESTIONS_PER_ROUND,
+                'end_round': False,
+                'score': 0,
+                'timer_value': TIMER_SECS_PER_QUESTION,
+            },
+            template_name='phish_buster/quiz.html',
+        )
 
     questions = Question.objects.all()
-
-    # Filter out used questions
-    # used_question_ids = request.session.get("used_question_ids", [])
     used_question_ids = [question.id for question in session.answers.all()]
     unused_questions = [
         q for q in questions
@@ -185,7 +206,7 @@ def quiz(request, session_id=None):
     return render(
         request=request,
         context={
-            'session_id': session.id,
+            'session_id': session.id if session else None,
             'question': question,
             'question_body_formatted': formatted_body,
             'question_number': len(used_question_ids),
@@ -195,6 +216,57 @@ def quiz(request, session_id=None):
             'timer_value': TIMER_SECS_PER_QUESTION,
         },
         template_name='phish_buster/quiz.html',
+    )
+
+
+def leaderboard(request, session_id=None):
+    """
+    If session_id is provided, show session stats and leaderboard.
+    If not, show only top 10 leaderboard entries.
+    """
+    session = None
+    session_answers = []
+    score = 0
+    questions_attempted = 0
+    correct_answers = 0
+    accuracy_percent = 0
+
+    if session_id is not None:
+        session = PlayerSession.objects.filter(id=session_id).first()
+        if session:
+            score = session.score
+            session_answers = session.answers.select_related('question').all()
+            questions_attempted = session_answers.count()
+            correct_answers = session_answers.filter(is_correct=True).count()
+            accuracy_percent = (correct_answers / questions_attempted * 100) if questions_attempted else 0
+
+            # Only create entry if not already present for this username and score
+            exists = LeaderboardEntry.objects.filter(
+                username=session.username, score=session.score
+            ).exists()
+            if not exists:
+                LeaderboardEntry.objects.create(
+                    username=session.username,
+                    score=session.score,
+                )
+
+    leaderboard_entries = LeaderboardEntry.objects.order_by('-score', '-timestamp')[:10]
+    context = {
+        "leaderboard_entries": leaderboard_entries,
+        "session_id": session_id,
+    }
+    if session_id is not None and session:
+        context.update({
+            "score": score,
+            "questions_attempted": questions_attempted,
+            "correct_answers": correct_answers,
+            "accuracy_percent": accuracy_percent,
+            "session_answers": session_answers,
+        })
+    return render(
+        request=request,
+        context=context,
+        template_name='phish_buster/leaderboard.html',
     )
 
 
