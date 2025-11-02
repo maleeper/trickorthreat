@@ -1,6 +1,7 @@
 {% load static %}
 {% url 'home' as home_url %}
 {% url 'quiz' as quiz_url %}
+{% url 'scanner' as scanner_url %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,7 +55,9 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#scanner" data-text="Scanner">
+                <a class="nav-link{% if request.path == scanner_url %} active{% endif %}" 
+                   href="{{ scanner_url }}"
+                   data-text="Scanner">
                     <span>Scanner</span>
                 </a>
             </li>
