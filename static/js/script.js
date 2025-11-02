@@ -572,6 +572,38 @@ document.addEventListener("DOMContentLoaded", function () {
           .catch((error) => {
             showScanStatus("Scan error: " + error);
           });
+      } else if (dataType === "start-quiz") {
+        // Prompt for username (you can use a modal or prompt for simplicity)
+        let username = prompt("Enter your nickname for the leaderboard (max 20 chars):", "");
+        if (!username) {
+          alert("You must enter a username to start the quiz.");
+          return;
+        }
+        username = username.trim().substring(0, 20);
+
+        const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]")?.value;
+
+        fetch("/quiz/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrfToken,
+            "X-Requested-With": "XMLHttpRequest",
+          },
+          body: JSON.stringify({ username }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.session_id) {
+              // Redirect to the quiz with the new session_id
+              window.location.href = `/quiz/${data.session_id}/`;
+            } else {
+              alert(data.error || "Could not start quiz. Please try again.");
+            }
+          })
+          .catch((error) => {
+            alert("Error starting quiz: " + error);
+          });
       } else {
         alert("Feature not yet implemented");
       }

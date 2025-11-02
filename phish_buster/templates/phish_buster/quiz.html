@@ -1,11 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!-- Title -->
+<!-- Halloween Themed Title and Intro -->
 <div class="title-container" id="titleContainer">
-    <h1 class="title" id="mainTitle">TRICK OR THREAT</h1>
+    <h1 class="title" id="mainTitle">
+        The Phishing Test
+    </h1>
 </div>
-
+{% if not session_id %}
+<div class="start-quiz-container">
+    <p class="quiz-intro" >
+        <span style="font-size: 1.5rem;">🕸️</span>
+        Welcome to the <strong>Phantom Phishers</strong> Halloween Phishing Quiz! <br>
+        Can you spot the tricks from the treats? Test your cyber-smarts by identifying real vs. fake emails and see if you can outsmart the phantoms lurking in your inbox. <br>
+        <span>Score high, climb the leaderboard, and claim your place as a true cyber-sleuth!</span>
+        <span style="font-size: 1.5rem;">🦇</span>
+    </p>
+    {% csrf_token %}
+    <button data-type="start-quiz" class="btn btn-primary">Start Quiz</button>
+</div>
+{% else %}
 <div class="d-flex justify-content-between">
     <div>Score: <span id="user-score">{{ score }}</span></div>
     <div id="quiz-timer" data-timer-value="{{ timer_value }}"></div>
@@ -24,25 +38,28 @@
     <div class="email-attachments" style="margin-top: 1em;">
         <strong>Attachments:</strong>
         {% if question.link %}
-            <a href="{{ question.link }}" target="_blank">{{ question.attachments }}</a>
+        <a href="{{ question.link }}" target="_blank">{{ question.attachments }}</a>
         {% else %}
-            {{ question.attachments }}
+        {{ question.attachments }}
         {% endif %}
     </div>
     {% endif %}
 </div>
 
 {% csrf_token %}
-<div id="quiz-choices" style="margin-top: 2em;" >
-    <button data-type="phish" data-question-id="{{ question.id }}" data-session-id="{{ session_id }}">Phantom Phish</button>
-    <button data-type="treat" data-question-id="{{ question.id }}"" data-session-id="{{ session_id }}">True Treat</button>
+<div id="quiz-choices" style="margin-top: 2em;">
+    <button data-type="phish" data-question-id="{{ question.id }}" data-session-id="{{ session_id }}">Phantom
+        Phish</button>
+    <button data-type="treat" data-question-id="{{ question.id }}" data-session-id="{{ session_id }}">True
+        Treat</button>
 </div>
 <div id="quiz-progression-control" style="margin-top: 2em;" class="hidden">
     {% if end_round %}
-    <a href="">Results</a>
+    <a href="{% url 'leaderboard_with_session_id' session_id %}">Results</a>
     {% else %}
     <a href="{% url 'quiz_with_session_id' session_id %}">Next</a>
     {% endif %}
 </div>
 <div id="quiz-results"></div>
+{% endif %}
 {% endblock content %}

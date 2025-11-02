@@ -2,6 +2,7 @@
 {% url 'home' as home_url %}
 {% url 'quiz' as quiz_url %}
 {% url 'scanner' as scanner_url %}
+{% url 'leaderboard' as leaderboard_url %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -62,7 +63,9 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#leaderboard" data-text="Leaderboard">
+                <a class="nav-link{% if request.path == leaderboard_url %} active{% endif %}" 
+                   href="{{ leaderboard_url }}"
+                   data-text="Leaderboard">
                     <span>Leaderboard</span>
                 </a>
             </li>
