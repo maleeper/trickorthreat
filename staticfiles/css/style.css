@@ -1,23 +1,335 @@
+/* ============================================
+   🩸 PHANTOM PHISHERS - BLOOD & FIRE THEME
+   ============================================ */
+
+@font-face {
+    font-family: 'YouMurderer';
+    src: url('/static/fonts/zombiesbrainless.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+:root {
+    --blood-red: #8B0000;
+    --neon-orange: #FF4500;
+    --toxic-orange: #FF6B35;
+    --black-void: #0a0a0a;
+    --dark-grey: #1a1a1a;
+    --ash-grey: #2a2a2a;
+    --blood-glow: rgba(139, 0, 0, 0.5);
+    --fire-glow: rgba(255, 69, 0, 0.6);
+}
+
 body {
-    background: linear-gradient(to bottom, #0a0e27 0%, #1a1a2e 50%, #16213e 100%);
+    background: linear-gradient(to bottom, 
+        var(--black-void) 0%, 
+        var(--dark-grey) 50%, 
+        #1a0f0f 100%);
     min-height: 100vh;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Space Grotesk', -apple-system, sans-serif;
     overflow-x: hidden;
-    position: relative;
     color: #fff;
+    padding-top: 80px;
 }
 
 .hidden {
     display: none;
 }
 
-/* Canvas for particles */
+/* ============================================
+   🔥 NAVBAR - BLOOD & FIRE
+   ============================================ */
+
+.spooky-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 2px solid var(--blood-red);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        0 0 40px var(--blood-glow),
+        inset 0 -2px 20px var(--blood-glow);
+    transition: all 0.3s ease;
+}
+
+.spooky-nav.scrolled {
+    background: rgba(10, 10, 10, 0.98);
+    border-bottom-color: var(--neon-orange);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.9),
+        0 0 60px var(--fire-glow),
+        inset 0 -2px 30px var(--fire-glow);
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    font-family: 'YouMurderer', cursive;
+    font-size: 1.5rem;
+    color: #fff;
+    position: relative;
+    z-index: 10;
+    letter-spacing: 0.1em;
+}
+
+.logo-icon {
+    font-size: 2rem;
+    animation: ghostFloat 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 15px var(--fire-glow));
+}
+
+@keyframes ghostFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+.logo-text {
+    position: relative;
+    background: linear-gradient(135deg, 
+        var(--toxic-orange) 0%, 
+        var(--neon-orange) 50%,
+        var(--blood-red) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 200%;
+    animation: bloodFlow 3s ease infinite;
+    filter: drop-shadow(0 0 10px var(--blood-red));
+}
+
+@keyframes bloodFlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.nav-logo:hover .logo-text {
+    animation: bloodDrip 0.5s ease, bloodFlow 3s ease infinite;
+}
+
+@keyframes bloodDrip {
+    0%, 100% { transform: translateY(0); }
+    25% { transform: translateY(3px); }
+    50% { transform: translateY(0); }
+    75% { transform: translateY(2px); }
+}
+
+.nav-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    font-size: 1.2rem;
+    opacity: 0.4;
+    animation: particleFloat 15s linear infinite;
+    filter: drop-shadow(0 0 5px var(--neon-orange));
+}
+
+.particle:nth-child(1) { left: 20%; animation-delay: 0s; }
+.particle:nth-child(2) { left: 50%; animation-delay: 5s; }
+.particle:nth-child(3) { left: 80%; animation-delay: 10s; }
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(100vh) rotate(0deg) scale(1);
+        opacity: 0;
+    }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.2; }
+    100% {
+        transform: translateY(-100px) rotate(360deg) scale(1.5);
+        opacity: 0;
+    }
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-link {
+    position: relative;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.85);
+    font-family: 'YouMurderer', cursive;
+    font-size: 1.1rem;
+    font-weight: normal;
+    padding: 0.5rem 0;
+    transition: all 0.3s ease;
+    display: block;
+    letter-spacing: 0.1em;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, var(--blood-glow) 0%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0;
+    transition: all 0.4s ease;
+    z-index: -1;
+}
+
+.nav-link:hover::before {
+    width: 120px;
+    height: 120px;
+    opacity: 1;
+}
+
+.nav-link span {
+    position: relative;
+    display: inline-block;
+}
+
+.nav-link span::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        var(--blood-red), 
+        var(--neon-orange),
+        var(--toxic-orange));
+    box-shadow: 
+        0 0 10px var(--neon-orange),
+        0 0 20px var(--blood-red);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover span::after,
+.nav-link.active span::after {
+    width: 100%;
+}
+
+.nav-link:hover {
+    color: var(--toxic-orange);
+    text-shadow: 
+        0 0 10px var(--fire-glow),
+        0 0 20px var(--blood-glow);
+    transform: translateY(-2px);
+}
+
+.nav-link.active {
+    color: var(--neon-orange);
+    text-shadow: 
+        0 0 15px var(--neon-orange),
+        0 0 30px var(--blood-red);
+}
+
+.nav-neon-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent,
+        var(--blood-red),
+        var(--neon-orange),
+        var(--toxic-orange),
+        transparent
+    );
+    box-shadow: 
+        0 0 20px var(--neon-orange),
+        0 0 40px var(--blood-red);
+    animation: bloodlineSweep 4s ease-in-out infinite;
+}
+
+@keyframes bloodlineSweep {
+    0%, 100% { left: 0; width: 0; opacity: 0; }
+    25% { opacity: 1; }
+    50% { left: 0; width: 100%; opacity: 1; }
+    75% { opacity: 1; }
+    100% { left: 100%; width: 0; opacity: 0; }
+}
+
+.nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.nav-hamburger .line {
+    width: 30px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--blood-red), var(--neon-orange));
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 0 10px var(--fire-glow),
+        0 0 20px var(--blood-glow);
+}
+
+.nav-hamburger:hover .line {
+    box-shadow: 
+        0 0 15px var(--neon-orange),
+        0 0 30px var(--blood-red);
+}
+
+.nav-hamburger.active .line:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+    background: var(--blood-red);
+}
+
+.nav-hamburger.active .line:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-hamburger.active .line:nth-child(3) {
+    transform: rotate(-45deg) translate(8px, -8px);
+    background: var(--blood-red);
+}
+
+/* ============================================
+   🎃 MAIN CONTENT AREA
+   ============================================ */
+
 #particleCanvas {
     position: fixed;
     top: 0;
@@ -28,7 +340,274 @@ body {
     pointer-events: none;
 }
 
-/* Floating ghosts */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 60px 20px;
+    position: relative;
+    z-index: 10;
+}
+
+.title {
+    font-family: 'YouMurderer', cursive;
+    font-size: clamp(3rem, 12vw, 8rem); /* Slightly smaller, more readable */
+    font-weight: 900;
+    text-align: center;
+    line-height: 1.2; /* Better line height */
+    position: relative;
+    letter-spacing: 0.05em; /* Tighter letter spacing */
+    color: var(--toxic-orange);
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.8), /* Dark shadow for depth */
+        0 0 20px var(--fire-glow); /* Subtle glow */
+    opacity: 1;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5)); /* Extra depth */
+}
+
+.word {
+    display: inline-block;
+    position: relative;
+    opacity: 1;
+    margin: 0 0.2em; /* Better word spacing */
+}
+
+.char {
+    display: inline-block;
+    position: relative;
+    opacity: 1;
+    transition: all 0.3s ease; /* Smooth transitions */
+}
+
+/* Hover effect for title */
+.title-container:hover .char {
+    animation: charWiggle 0.5s ease;
+}
+
+@keyframes charWiggle {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-5px) rotate(-2deg); }
+    75% { transform: translateY(-3px) rotate(2deg); }
+}
+
+/* Alternative: Cleaner sans-serif option */
+.title.clean-style {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: clamp(2.5rem, 10vw, 7rem);
+}
+
+/* Alternative: More dramatic Halloween style */
+.title.dramatic-style {
+    font-family: 'YouMurderer', cursive;
+    font-size: clamp(3.5rem, 14vw, 9rem);
+    letter-spacing: 0.1em;
+    text-shadow: 
+        3px 3px 0 var(--blood-red),
+        6px 6px 0 rgba(0, 0, 0, 0.5),
+        0 0 30px var(--fire-glow),
+        0 0 60px var(--blood-glow);
+    filter: none;
+}
+
+/* ============================================
+   🩸 GLASS CARDS
+   ============================================ */
+
+.glass-card {
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    border: 2px solid var(--blood-red);
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto 30px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.5),
+        0 0 20px var(--blood-glow),
+        inset 0 0 20px rgba(139, 0, 0, 0.1);
+    opacity: 0;
+}
+
+.glass-card:hover {
+    border-color: var(--neon-orange);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.7),
+        0 0 40px var(--fire-glow),
+        inset 0 0 30px rgba(255, 69, 0, 0.2);
+}
+
+.glass-card h2 {
+    font-family: 'YouMurderer', cursive;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #fff;
+    letter-spacing: 0.1em;
+}
+
+.glass-card p {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 15px;
+}
+
+.team-name {
+    color: var(--toxic-orange);
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+    text-shadow: 0 0 10px var(--fire-glow);
+}
+
+.team-name::after {
+    content: '👻';
+    position: absolute;
+    right: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9em;
+}
+
+/* ============================================
+   🔥 FEATURE CARDS
+   ============================================ */
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
+    width: 100%;
+    margin-top: 40px;
+    opacity: 0;
+}
+
+.feature-card {
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    border: 2px solid var(--blood-red);
+    padding: 30px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.5),
+        0 0 20px var(--blood-glow),
+        inset 0 0 20px rgba(139, 0, 0, 0.1);
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.feature-card:hover::before {
+    left: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--neon-orange);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.7),
+        0 0 40px var(--fire-glow),
+        inset 0 0 30px rgba(255, 69, 0, 0.2);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    display: block;
+    filter: drop-shadow(0 0 15px var(--neon-orange));
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+    filter: drop-shadow(0 0 25px var(--blood-red));
+    transform: scale(1.1) translateY(-5px);
+}
+
+.feature-title {
+    font-family: 'YouMurderer', cursive;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #fff;
+    letter-spacing: 0.1em;
+}
+
+.feature-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ============================================
+   🎃 BUTTONS
+   ============================================ */
+
+button, .btn, .scan-btn {
+    font-family: 'YouMurderer', cursive;
+    background: linear-gradient(135deg, var(--blood-red), var(--neon-orange));
+    border: 2px solid var(--neon-orange);
+    color: #fff;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 4px 15px var(--blood-glow),
+        inset 0 -2px 10px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.1em;
+    font-size: 1rem;
+}
+
+button:hover, .btn:hover, .scan-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 8px 25px var(--fire-glow),
+        0 0 40px var(--blood-red),
+        inset 0 -2px 15px rgba(0, 0, 0, 0.7);
+    border-color: var(--toxic-orange);
+}
+
+.status-badge {
+    background: rgba(139, 0, 0, 0.2);
+    backdrop-filter: blur(20px);
+    border: 2px solid var(--blood-red);
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-family: 'YouMurderer', cursive;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--neon-orange);
+    letter-spacing: 0.1em;
+    opacity: 0;
+    display: inline-block;
+    margin-top: 20px;
+    box-shadow: 
+        0 0 20px var(--blood-glow),
+        inset 0 0 20px rgba(139, 0, 0, 0.2);
+}
+
+/* ============================================
+   👻 FLOATING ELEMENTS
+   ============================================ */
+
 .ghost {
     position: absolute;
     width: 50px;
@@ -45,11 +624,11 @@ body {
     position: absolute;
     width: 8px;
     height: 8px;
-    background: rgba(255, 107, 53, 0.6);
+    background: var(--blood-red);
     border-radius: 50%;
     top: 18px;
     left: 12px;
-    box-shadow: 18px 0 0 rgba(255, 107, 53, 0.6);
+    box-shadow: 18px 0 0 var(--blood-red);
 }
 
 .ghost::after {
@@ -63,330 +642,68 @@ body {
     border-radius: 0 0 50% 50%;
 }
 
-.ghost1 {
-    top: 10%;
-    left: 10%;
-    animation-delay: 0s;
-}
-
-.ghost2 {
-    top: 40%;
-    right: 15%;
-    animation-delay: 2s;
-}
-
-.ghost3 {
-    top: 70%;
-    left: 20%;
-    animation-delay: 4s;
-}
-
-.ghost4 {
-    top: 25%;
-    right: 30%;
-    animation-delay: 1s;
-}
+.ghost1 { top: 10%; left: 10%; animation-delay: 0s; }
+.ghost2 { top: 40%; right: 15%; animation-delay: 2s; }
+.ghost3 { top: 70%; left: 20%; animation-delay: 4s; }
+.ghost4 { top: 25%; right: 30%; animation-delay: 1s; }
 
 @keyframes float {
-
-    0%,
-    100% {
-        transform: translateY(0) rotate(0deg);
-    }
-
-    25% {
-        transform: translateY(-25px) rotate(4deg);
-    }
-
-    50% {
-        transform: translateY(-18px) rotate(-4deg);
-    }
-
-    75% {
-        transform: translateY(-32px) rotate(3deg);
-    }
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-25px) rotate(4deg); }
+    50% { transform: translateY(-18px) rotate(-4deg); }
+    75% { transform: translateY(-32px) rotate(3deg); }
 }
 
-/* Bats */
 .bat {
     position: absolute;
     font-size: 22px;
     animation: fly 15s linear infinite;
     z-index: 1;
     opacity: 0.6;
+    filter: drop-shadow(0 0 5px var(--neon-orange));
 }
 
-.bat1 {
-    top: 15%;
-    animation-delay: 0s;
-}
-
-.bat2 {
-    top: 35%;
-    animation-delay: 5s;
-}
-
-.bat3 {
-    top: 55%;
-    animation-delay: 10s;
-}
+.bat1 { top: 15%; animation-delay: 0s; }
+.bat2 { top: 35%; animation-delay: 5s; }
+.bat3 { top: 55%; animation-delay: 10s; }
 
 @keyframes fly {
-    0% {
-        left: -100px;
-        transform: translateY(0);
-    }
-
-    25% {
-        transform: translateY(-25px);
-    }
-
-    50% {
-        transform: translateY(25px);
-    }
-
-    75% {
-        transform: translateY(-18px);
-    }
-
-    100% {
-        left: 110%;
-        transform: translateY(0);
-    }
+    0% { left: -100px; transform: translateY(0); }
+    25% { transform: translateY(-25px); }
+    50% { transform: translateY(25px); }
+    75% { transform: translateY(-18px); }
+    100% { left: 110%; transform: translateY(0); }
 }
 
-/* Pumpkins */
 .pumpkin {
     font-size: 45px;
     position: absolute;
     animation: bounce 2s ease-in-out infinite;
     z-index: 1;
     opacity: 0.7;
+    filter: drop-shadow(0 0 10px var(--neon-orange));
 }
 
-.pumpkin1 {
-    bottom: 10%;
-    left: 5%;
-    animation-delay: 0s;
-}
-
-.pumpkin2 {
-    bottom: 15%;
-    right: 8%;
-    animation-delay: 1s;
-}
+.pumpkin1 { bottom: 10%; left: 5%; animation-delay: 0s; }
+.pumpkin2 { bottom: 15%; right: 8%; animation-delay: 1s; }
 
 @keyframes bounce {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-18px);
-    }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-18px); }
 }
 
-/* Main container */
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 60px 20px;
-    position: relative;
-    z-index: 10;
-}
+/* ============================================
+   🎧 AUDIO CONTROL
+   ============================================ */
 
-/* Title */
-.title-container {
-    position: relative;
-    margin-bottom: 40px;
-    cursor: pointer;
-}
-
-.title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(3rem, 15vw, 9rem);
-    font-weight: 900;
-    text-align: center;
-    line-height: 1;
-    position: relative;
-    letter-spacing: -0.02em;
-}
-
-.word {
-    display: inline-block;
-    position: relative;
-}
-
-.char {
-    display: inline-block;
-    position: relative;
-}
-
-/* Drip effect */
-.drip {
-    position: absolute;
-    width: 100%;
-    height: 20px;
-    bottom: -10px;
-    left: 0;
-    background: currentColor;
-    clip-path: polygon(45% 0%, 55% 0%, 55% 100%, 45% 100%);
-    transform-origin: top;
-    animation: drip 2s ease-in-out infinite;
-    opacity: 0.7;
-}
-
-@keyframes drip {
-
-    0%,
-    100% {
-        transform: scaleY(0);
-    }
-
-    50% {
-        transform: scaleY(1.5);
-    }
-}
-
-/* Glassmorphism card */
-.glass-card {
-    background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(20px);
-    border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 40px;
-    max-width: 800px;
-    margin: 0 auto 30px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-}
-
-.glass-card h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(1.5rem, 4vw, 2rem);
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: #fff;
-}
-
-.glass-card p {
-    font-size: clamp(1rem, 2vw, 1.15rem);
-    line-height: 1.7;
-    color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 15px;
-}
-
-.team-name {
-    color: #ff6b35;
-    font-weight: 700;
-    position: relative;
-    display: inline-block;
-}
-
-.team-name::after {
-    content: '👻';
-    position: absolute;
-    right: -25px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 0.9em;
-}
-
-/* Feature cards */
-.features {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-    max-width: 1100px;
-    width: 100%;
-    margin-top: 40px;
-    opacity: 0;
-}
-
-.feature-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 30px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-
-.feature-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    transition: left 0.5s;
-}
-
-.feature-card:hover::before {
-    left: 100%;
-}
-
-.feature-card:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-.feature-icon {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-    display: block;
-}
-
-.feature-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-    color: #fff;
-}
-
-.feature-text {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.7);
-}
-
-/* Status badge */
-.status-badge {
-    background: rgba(255, 107, 53, 0.15);
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(255, 107, 53, 0.4);
-    border-radius: 50px;
-    padding: 12px 30px;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #ff6b35;
-    letter-spacing: 0.05em;
-    opacity: 0;
-    display: inline-block;
-    margin-top: 20px;
-}
-
-/* Audio control */
 .audio-control {
     position: fixed;
     bottom: 30px;
     right: 30px;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(10, 10, 10, 0.8);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid var(--blood-red);
     width: 56px;
     height: 56px;
     border-radius: 50%;
@@ -396,22 +713,86 @@ body {
     cursor: pointer;
     font-size: 1.3rem;
     transition: all 0.3s ease;
+    box-shadow: 0 0 20px var(--blood-glow);
 }
 
 .audio-control:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(10, 10, 10, 0.95);
     transform: scale(1.1);
+    border-color: var(--neon-orange);
+    box-shadow: 0 0 30px var(--fire-glow);
 }
 
-/* Particle for explosions */
-.text-particle {
-    position: absolute;
-    pointer-events: none;
-    font-size: 20px;
-    opacity: 0;
+/* ============================================
+   📜 SCROLLBAR
+   ============================================ */
+
+::-webkit-scrollbar {
+    width: 12px;
+    background: var(--black-void);
 }
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--blood-red), var(--neon-orange));
+    border-radius: 6px;
+    box-shadow: 0 0 10px var(--fire-glow);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--neon-orange), var(--blood-red));
+    box-shadow: 0 0 20px var(--neon-orange);
+}
+
+/* ============================================
+   📱 RESPONSIVE
+   ============================================ */
 
 @media (max-width: 768px) {
+    .nav-container {
+        padding: 1rem;
+    }
+
+    .nav-hamburger {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: linear-gradient(180deg, 
+            rgba(10, 10, 10, 0.98) 0%,
+            rgba(26, 10, 10, 0.98) 100%);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 6rem 2rem 2rem;
+        gap: 2rem;
+        border-left: 3px solid var(--blood-red);
+        box-shadow: 
+            -10px 0 50px rgba(0, 0, 0, 0.9),
+            -5px 0 30px var(--blood-glow);
+        transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .nav-menu.active {
+        right: 0;
+    }
+
+    .nav-link {
+        font-size: 1.4rem;
+    }
+
+    .logo-text {
+        font-size: 1rem;
+    }
+
+    .logo-icon {
+        font-size: 1.5rem;
+    }
+
     .ghost {
         width: 35px;
         height: 55px;
@@ -435,5 +816,106 @@ body {
 
     .audio-control {
         display: none;
+    }
+
+    .team-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .team-card {
+        padding: 1.5rem;
+    }
+}
+
+.minimal-footer {
+    position: relative;
+    background: rgba(10, 10, 10, 0.9);
+    border-top: 1px solid var(--blood-red);
+    padding: 2rem;
+    margin-top: 4rem;
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.footer-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.footer-logo {
+    font-family: 'YouMurderer', cursive;
+    font-size: 1.2rem;
+    color: var(--toxic-orange);
+    letter-spacing: 0.1em;
+}
+
+.footer-badge {
+    background: rgba(139, 0, 0, 0.2);
+    border: 1px solid var(--blood-red);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--neon-orange);
+    font-weight: 600;
+}
+
+.footer-center p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.team-link {
+    font-family: 'YouMurderer', cursive;
+    color: var(--toxic-orange);
+    text-decoration: none;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    padding: 0.5rem 1.5rem;
+    border: 2px solid var(--blood-red);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.team-link:hover {
+    background: rgba(139, 0, 0, 0.2);
+    border-color: var(--neon-orange);
+    transform: translateX(5px);
+    box-shadow: 0 0 20px var(--fire-glow);
+}
+
+.footer-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent,
+        var(--blood-red),
+        var(--neon-orange),
+        transparent
+    );
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-left {
+        flex-direction: column;
     }
 }
