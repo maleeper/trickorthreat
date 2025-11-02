@@ -3,7 +3,7 @@
 
 {% block content %}
 <!-- Scanner Section -->
-<section class="scanner-section">
+<section class="scanner-section container">
     {% csrf_token %}
     <div class="scanner-container">
         <h2 class="scanner-title">Scan a URL</h2>
@@ -15,6 +15,6 @@
             Paste any URL to check if it's a trick or a treat
         </p>
     </div>
+    <div id="scan-results"></div>
 </section>
-<section id="scan-results"></section>
 {% endblock content %}
