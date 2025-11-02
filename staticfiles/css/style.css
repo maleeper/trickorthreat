@@ -517,11 +517,12 @@ body {
     opacity: 0;
 }
 
+.session-summary.glass-card,
+.top-leaderboard.glass-card,
 .modal-content.glass-card,
 .email-quiz.glass-card {
     opacity: 1;
 }
-
 
 .glass-card:hover {
     border-color: var(--neon-orange);
@@ -925,6 +926,10 @@ button:hover,
     padding: 2rem;
 }
 
+/* ============================================
+   📜 QUIZ PAGE
+   ============================================ */
+
 .quiz-status-item {
     display: flex;
     align-items: center;
@@ -980,6 +985,13 @@ button:hover,
   cursor: pointer;
   font-weight: bold;
 }
+
+/* ============================================
+   📜 LEADERBOARD
+   ============================================ */
+   td {
+    padding: 0.5rem 0.25rem;
+   }
 
 /* ============================================
    📱 RESPONSIVE
