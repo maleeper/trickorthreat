@@ -3,7 +3,7 @@ Halloween Hackathon 2025 - Phantom Phishers
 # Trick or Threat
 
 <p align="center">
-  <img src="phantomphish.jpg" alt="Phantom Phishers Team Logo" width="600"/>
+  <img src="\readme%20images\phantomphish.jpg" alt="Phantom Phishers Team Logo" width="600"/>
 </p>
 
 <p align="center">
@@ -37,11 +37,15 @@ A Halloween-themed cybersecurity toolkit for detecting and learning about phishi
 - PostgreSQL
 
 **APIs:**
-- PhishTank for URL verification
+- URLScan.io for URL verification
 
 **Deployment:**
 - Heroku (Backend)
 - GitHub Pages / Vercel (Frontend)
+
+**Audio:**
+- ElevenLabs
+
 
 ---
 
@@ -54,7 +58,7 @@ A Halloween-themed cybersecurity toolkit for detecting and learning about phishi
 | **Shuayb** | Backend Developer | [@ShuaybAi](https://github.com/ShuaybAi) |
 | **Mark** | Design / Content | [@maleeper](https://github.com/maleeper) |
 | **Sanchia** | Frontend Developer | [@Chia-Codes](https://github.com/Chia-Codes) |
-| **Akram** | Developer | TBD | [@Chia-Codes](https://github.com/AL-MASNAI) |
+| **Akram** | Content | [@AL-MASNAI](https://github.com/AL-MASNAI) |
 
 ---
 
