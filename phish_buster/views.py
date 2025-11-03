@@ -302,15 +302,15 @@ def format_question(question):
     """
     Replace [Link: '...'] or [Hyperlinked Button: '...'] in question.body
     with an anchor tag using question.link. If the pattern is not found and
-    link exists, append the link as an anchor tag at the end. Also replaces
-    \n with <br> for HTML line breaks. Returns a string with the formatted
-    body.
+    link exists, append the link as an anchor tag at the end.
+    Also replaces **text content** with <strong>text content</strong> for bold,
+    and \n with <br> for HTML line breaks. Returns a string with the formatted body.
     """
     if not question or not question.body:
         return ""
     body = question.body
     # Match [Link: '...'] or [Hyperlinked Button: '...']
-    pattern = r"\[(?:Link|Hyperlinked Button): '(.*?)'\]"
+    link_pattern = r"\[(?:Link|Hyperlinked Button): '(.*?)'\]"
     link_inserted = False
     if question.link:
         def replacer(m):
@@ -319,13 +319,16 @@ def format_question(question):
             return (
                 f'<a href="{question.link}" target="_blank">{m.group(1)}</a>'
             )
-        body = re.sub(pattern, replacer, body)
-    if not link_inserted:
-        # Append the link as an anchor tag at the end
-        body += (
-            f' <a href="{question.link}" target="_blank">'
-            f'{question.link}</a>'
-        )
+        body = re.sub(link_pattern, replacer, body)
+        if not link_inserted:
+            # Append the link as an anchor tag at the end
+            body += (
+                f' <a href="{question.link}" target="_blank">'
+                f'{question.link}</a>'
+            )
+    # Replace **text content** with <strong>text content</strong>
+    bold_pattern = r"\*\*(.+?)\*\*"
+    body = re.sub(bold_pattern, r"<strong>\1</strong>", body)
     # Replace \n with <br>
     body = body.replace('\n', '<br>')
     return body
