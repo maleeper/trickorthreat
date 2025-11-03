@@ -182,7 +182,7 @@ def quiz(request, session_id=None):
         )
 
     questions = Question.objects.all()
-    used_question_ids = [question.id for question in session.answers.all()]
+    used_question_ids = [answer.question_id for answer in session.answers.all()]
     unused_questions = [
         q for q in questions
         if q.id not in used_question_ids
